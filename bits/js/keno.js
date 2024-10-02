@@ -166,13 +166,18 @@ function keno_fetch() {
         },
         success: function (data, status, req) {
             console.log("script success: ", uri, status, data);
-            keno.poll = req.getResponseHeader("KDS-Next-Poll");
-            if (keno.poll == null) keno.poll = 10;
+            
+            var next = req.getResponseHeader("KDS-Next-Poll");
+            if (next == null) keno.poll = 10;
+            else keno.poll = parseInt(keno.poll) + 1;
+            
             keno.refresh = keno_timer(keno.poll);
+            
             keno_build(data);
         },
         error: function (hdrs, status, err) {
             console.log("script failure: ", uri, status, err);
+            
             keno.poll = 10; // delay the timer
             keno.refresh = keno_timer(keno.poll);
         },
