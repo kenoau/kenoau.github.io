@@ -35,7 +35,7 @@
     width: 100%;
     max-width: 100%;
     border-radius: 4px;
-    border: 1px solid rgb(255, 64, 64);
+    border: 1px solid rgb(64, 64, 255);
     vertical-align: middle;
     margin-bottom: 16px;
 }
@@ -53,7 +53,7 @@
 }
 #keno-t-title, #keno-t-reply-row, #keno-h-load, #keno-t-load {
     color: rgb(255, 255, 255);
-    text-shadow: -1px -1px 5px rgb(255, 0, 0);
+    text-shadow: -1px -1px 5px rgb(0, 0, 255);
 }
 #keno-h-comments-avatar, #keno-h-comments-xtra-reactions {
     float: right;
@@ -66,9 +66,9 @@
     width: 20px;
     height: 20px;
     background-color: rgb(255, 255, 255);
-    border: 1px solid rgb(255, 128, 128);
-    -webkit-filter: drop-shadow( -1px -1px 5px rgb(255, 0, 0));
-    filter: drop-shadow(-1px -1px 5px rgb(255, 0, 0));
+    border: 1px solid rgb(128, 128, 255);
+    -webkit-filter: drop-shadow( -1px -1px 5px rgb(0, 0, 255));
+    filter: drop-shadow(-1px -1px 5px rgb(0, 0, 255));
 }
 #keno-h-comments-span p, #keno-h-comments-xtra-reactions p {
     display: inline;
