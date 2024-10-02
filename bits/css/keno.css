@@ -3,7 +3,6 @@
     width: auto;
     max-width: 100%;
     border: none;
-    vertical-align: middle;
     margin-left: auto;
     margin-right: auto;
     font-size: 3vw;
@@ -21,7 +20,7 @@
 
 .keno-number {
     width: 5%;
-    margin: 1%;
+    display: table-cell;
     border: 2px solid rgb(64, 64, 255);
     border-radius: 16px;
     vertical-align: middle;
