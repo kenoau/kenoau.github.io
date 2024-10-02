@@ -1,7 +1,4 @@
-var keno_num = -1;
-var keno_time = new Date();
 var keno_jurisdiction = 'qld';
-var keno_data = {};
 
 function keno_proxy(url) {
     return 'https://corsproxy.io/?' + encodeURIComponent(url); 
@@ -98,6 +95,7 @@ function markdown(data) {
 
 function keno_setup()
 {
+    /*
     var url = window.location.hash, idx = url.indexOf('#');
     if(idx >= 0) {
         var str = url.substring(idx + 1);
@@ -106,6 +104,7 @@ function keno_setup()
     else {
         keno_num = -1;
     }
+    */
 }
 
 function keno_date(data) {
@@ -113,14 +112,14 @@ function keno_date(data) {
     return d.getFullYear() + '-' + d.getMonth().zeropad() + '-' + d.getDate().zeropad() + ' ' + d.getHours() + ':' + d.getMinutes().zeropad() + ':' + d.getSeconds().zeropad();
 }
 
-function keno_build() {
+function keno_build(data, secs) {
     for(var i = 1; i <= 80; i++) {
         var keno_elem = getelem('keno-n-' + i);
         if(keno_elem != null) keno_elem.innerHTML = '&nbsp;';
     }
 
-    if(keno_data != null) {
-        var keno_draw = keno_data.current.draw;
+    if(data != null) {
+        var keno_draw = data.current.draw;
 
         if(keno_draw != null) {
 
@@ -131,11 +130,14 @@ function keno_build() {
             }
         }
     }
+
+    var timeout = secs == NULL ? secs * 10000 : 60000;
+    window.setTimeout(keno_script, timeout);
 }
 
-function keno_script(uri)
+function keno_script()
 {
-    var head = {};
+    var head = {}, uri = keno_api();
     console.log('script get: ', uri, head);
     $.ajax({
         method: "GET",
@@ -145,20 +147,19 @@ function keno_script(uri)
         accepts: {
             "*": "application/vnd.tabcorp.keno.kds+json; charset=utf-8; encoding=json"
         },
-        success: function(data) {
-            console.log('script success: ', uri, data);
-            keno_data = data;
-            keno_build();
+        success: function(data, status, hdrs) {
+            console.log('script success: ', uri, status, data);
+            keno_build(data, request.getResponseHeader('KDS-Next-Poll'));
         },
-        error: function() {
-            console.log('script failure: ', uri);
+        error: function(hdrs, status, err) {
+            console.log('script failure: ', uri, status, err);
         }
     });
 }
 
 $(document).ready(function ($) {
     keno_setup();
-    keno_script(keno_api());
+    keno_script();
 });
 
 $(window).on('hashchange', function() {
