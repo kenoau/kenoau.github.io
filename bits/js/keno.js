@@ -114,21 +114,22 @@ function keno_date(data) {
 }
 
 function keno_build() {
-    if(keno_data == null) {
-        console.log('keno data not found');
-        return;
-    }
-
     for(var i = 1; i <= 80; i++) {
         var keno_elem = getelem('keno-n-' + i);
         if(keno_elem != null) keno_elem.innerHTML = '&nbsp;';
     }
 
-    var keno_draw = keno_data.current.draw;
-    for(var i = 0; i < keno_draw.length; i++) {
-        console.log('script populate: ', i, keno_draw[i]);
-        var keno_cur = getelem('keno-n-' + keno_draw[i]);
-        if(keno_cur != null) keno_cur.innerHTML = '<b>' + keno_draw[i] + '</b>';
+    if(keno_data != null) {
+        var keno_draw = keno_data.current.draw;
+
+        if(keno_draw != null) {
+
+            for(var i = 0; i < keno_draw.length; i++) {
+                console.log('script populate: ', i, keno_draw[i]);
+                var keno_cur = getelem('keno-n-' + keno_draw[i]);
+                if(keno_cur != null) keno_cur.innerHTML = '<b>' + keno_draw[i] + '</b>';
+            }
+        }
     }
 }
 
