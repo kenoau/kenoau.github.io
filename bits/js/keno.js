@@ -98,6 +98,10 @@ function mkelem(name) {
     return document.createElement(name);
 }
 
+function getrand(max) {
+    return Math.floor(Math.random() * max);
+}
+
 function keno_timer(secs = 0, cur = new Date()) {
     var d = cur;
 
@@ -223,6 +227,7 @@ function keno_init() {
 function keno_start() {
     var d = new Date();
     keno.poll = -1;
+    keno.proxy = getrand(keno.proxies.length);
     if (keno.interval != null) window.clearInterval(keno.interval);
     window.setTimeout(keno_init, 1000 + (1000 - d.getMilliseconds()));
 }
