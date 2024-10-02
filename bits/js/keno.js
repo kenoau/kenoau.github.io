@@ -146,9 +146,9 @@ function keno_script(uri)
             "*": "application/vnd.tabcorp.keno.kds+json; charset=utf-8; encoding=json"
         },
         success: function(data) {
+            console.log('script success: ', uri, data);
             keno_data = data;
             keno_build();
-            console.log('script success: ', uri, JSON.stringify(data, null, 4));
         },
         error: function() {
             console.log('script failure: ', uri);
