@@ -29,6 +29,23 @@
     font-size: 3vw;
 }
 
+#keno-top {
+    height: 3em;
+}
+
+#keno-t-label {
+    border: none;
+}
+
+.keno-title {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.keno-value {
+    font-size: 2em;
+}
+
 #keno-r-0 {
     color: rgb(255, 128, 128);
     text-shadow: 0px 0px 2vw rgb(255, 128, 128, 0.75);

@@ -137,12 +137,26 @@ function keno_build(data) {
     }
 
     if (data != null && data.current != null) {
-        var draw = data.current.draw;
+        getelem("keno-game-value").innerHTML = data.current.game;
 
-        if (draw != null) {
-            for (var i = 0; i < draw.length; i++) {
-                var cur = getelem("keno-n-" + draw[i]);
-                if (cur != null) cur.innerHTML = "<b>" + draw[i] + "</b>";
+        if (data.current.variants != null) {
+            getelem("keno-heads-value").innerHTML =
+                data.current.variants["heads-or-tails"].heads;
+
+            getelem("keno-tails-value").innerHTML =
+                data.current.variants["heads-or-tails"].tails;
+
+            getelem("keno-bonus-value").innerHTML = data.current.variants.bonus;
+        }
+
+        if (data.current.draw != null) {
+            for (var i = 0; i < data.current.draw.length; i++) {
+                getelem("keno-n-" + data.current.draw[i]).innerHTML =
+                    "<b>" + data.current.draw[i] + "</b>";
+
+                if (i == data.current.draw.length - 1)
+                    getelem("keno-llast-value").innerHTML =
+                        data.current.draw[i];
             }
         }
     }
@@ -166,17 +180,17 @@ function keno_fetch() {
         },
         success: function (data, status, req) {
             console.log("script success: ", uri, status, data);
-            
+
             keno.poll = parseInt(req.getResponseHeader("KDS-Next-Poll")) + 1;
-            if(keno.poll < 10) keno.poll = 10; // minimum poll time
-            
+            if (keno.poll < 10) keno.poll = 10; // minimum poll time
+
             keno.refresh = keno_timer(keno.poll);
-            
+
             keno_build(data);
         },
         error: function (hdrs, status, err) {
             console.log("script failure: ", uri, status, err);
-            
+
             keno.poll = 10; // delay the timer
             keno.refresh = keno_timer(keno.poll);
         },
@@ -192,11 +206,7 @@ function keno_update() {
 
     if (next < 0) next = 0;
 
-    var time = getelem("keno-t-timer"),
-        game = getelem("keno-t-ngame");
-
-    time.innerHTML = next;
-    game.innerHTML = keno.poll;
+    getelem("keno-timer-value").innerHTML = next;
 }
 
 function keno_init() {
