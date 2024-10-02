@@ -173,18 +173,18 @@ function keno_fetch() {
 }
 
 function keno_update() {
-    var time = keno_timer();
+    var cur = keno_timer();
 
-    if (keno.poll >= 0 && time >= keno.refresh) keno_fetch();
+    if (keno.poll >= 0 && cur >= keno.refresh) keno_fetch();
 
-    var next = (keno.refresh.getTime() - time.getTime()) / 1000,
+    var next = (keno.refresh.getTime() - cur.getTime()) / 1000,
         time = getelem("keno-t-timer"),
         game = getelem("keno-t-ngame");
 
     time.innerHTML = next;
     game.innerHTML = keno.poll;
 
-    console.log("keno update: ", keno.refresh.getTime(), time.getTime(), next, keno.poll);
+    console.log("keno update: ", keno.refresh.getTime(), cur.getTime(), next, keno.poll);
 }
 
 function keno_init() {
