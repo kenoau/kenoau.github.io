@@ -6,8 +6,7 @@ var keno = {
     num: -1,
     proxy: -1,
     proxies: [
-        "https://corsproxy.io/?",
-        "https://api.codetabs.com/v1/proxy/?quest=",
+        "https://corsproxy.io/?"
     ],
 };
 
