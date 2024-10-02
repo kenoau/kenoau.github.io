@@ -91,7 +91,7 @@ function mkelem(name) {
 }
 
 function keno_timer(secs, cur) {
-    var d = new Date(cur);
+    var d = cur ? new Date(cur) : new Date();
 
     d.setMilliseconds(0); // stay aligned to milliseconds
     d.setSeconds(d.getSeconds() + (secs ? secs + 1 : 1));
