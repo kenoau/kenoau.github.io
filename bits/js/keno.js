@@ -181,7 +181,7 @@ function keno_update() {
     time.innerHTML = next;
     game.innerHTML = keno.poll;
 
-    console.log("keno update: ", time.innerHTML, game.innerHTML);
+    console.log("keno update: ", next, keno.poll);
 }
 
 function keno_init() {
