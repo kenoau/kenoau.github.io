@@ -10,6 +10,25 @@
     font-size: 3vw;
 }
 
+.keno-center {
+    text-align: center;
+}
+.keno-left {
+    text-align: left;
+}
+.keno-right {
+    text-align: right;
+}
+
+.keno-number, .keno-info {
+    width: 5%;
+    display: table-cell;
+    border: 2px solid rgb(64, 64, 255);
+    border-radius: 8px;
+    vertical-align: middle;
+    font-size: 3vw;
+}
+
 #keno-r-0 {
     color: rgb(255, 128, 128);
     text-shadow: 0px 0px 2vw rgb(255, 128, 128, 0.75);
@@ -41,23 +60,4 @@
 #keno-r-7 {
     color: rgb(255, 128, 255);
     text-shadow: 0px 0px 2vw rgb(255, 128, 255, 0.75);
-}
-
-.keno-center {
-    text-align: center;
-}
-.keno-left {
-    text-align: left;
-}
-.keno-right {
-    text-align: right;
-}
-
-.keno-number {
-    width: 5%;
-    display: table-cell;
-    border: 2px solid rgb(64, 64, 255);
-    border-radius: 16px;
-    vertical-align: middle;
-    font-size: 3vw;
 }

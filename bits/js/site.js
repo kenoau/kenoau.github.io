@@ -1,7 +1,7 @@
 $(document).ready(function() {
     jQuery("time.timeago").timeago();
     jQuery.timeago.settings = {
-        refreshMillis: 60000,
+        refreshMillis: 1000,
         allowPast: true,
         allowFuture: true,
         localeTitle: false,
