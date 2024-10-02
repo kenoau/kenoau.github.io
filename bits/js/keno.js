@@ -186,7 +186,7 @@ function keno_init() {
         keno.num = -1;
     }
 
-    keno.poll = 0;
+    keno.poll = 1;
     keno.refresh = keno_timer(1);
     if (keno.timer != null) window.clearInterval(keno.timer);
     keno.timer = window.setInterval(keno_update, 1000);
