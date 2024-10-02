@@ -46,9 +46,6 @@ a:hover, a:active {
     vertical-align: middle;
     text-align: right;
 }
-.navbar-right {
-    margin-right: -12px;
-}
 .navbar-inverse {
     background-color: rgba(0, 0, 0, 0.3);
     border: none;
