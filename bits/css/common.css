@@ -129,7 +129,7 @@ a:hover, a:active {
     font-size: 14px;
     text-align: center;
     padding: 8px;
-    background-color: rgb(8, 8, 8);
+    background-color: rgb(0, 0, 0);
     line-height: 1.4em;
 }
 .footer p {
