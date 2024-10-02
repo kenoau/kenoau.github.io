@@ -7,7 +7,6 @@ var keno = {
     proxy: -1,
     proxies: [
         "https://corsproxy.io/?",
-        "https://api.allorigins.win/get?url=",
         "https://api.codetabs.com/v1/proxy/?quest=",
     ],
 };
@@ -136,7 +135,7 @@ function keno_build(data) {
         if (elem != null) elem.innerHTML = "&nbsp;";
     }
 
-    if (data != null) {
+    if (data != null && data.current != null) {
         var draw = data.current.draw;
 
         if (draw != null) {
