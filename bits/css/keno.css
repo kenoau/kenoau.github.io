@@ -11,8 +11,8 @@
 }
 
 #keno-r-0 {
-    color: rgb(255, 148, 148);
-    text-shadow: 0px 0px 2vw rgb(255, 148, 148, 0.75);
+    color: rgb(255, 128, 128);
+    text-shadow: 0px 0px 2vw rgb(255, 128, 128, 0.75);
 }
 #keno-r-1 {
     color: rgb(255, 142, 86);
@@ -27,12 +27,12 @@
     text-shadow: 0px 0px 2vw rgb(64, 255, 64, 0.75);
 }
 #keno-r-4 {
-    color: rgb(64, 255, 255);
-    text-shadow: 0px 0px 2vw rgb(64, 255, 255, 0.75);
+    color: rgb(64, 192, 192);
+    text-shadow: 0px 0px 2vw rgb(64, 192, 192, 0.75);
 }
 #keno-r-5 {
-    color: rgb(124, 124, 255);
-    text-shadow: 0px 0px 2vw rgb(124, 124, 255, 0.75);
+    color: rgb(92, 92, 255);
+    text-shadow: 0px 0px 2vw rgb(92, 92, 255, 0.75);
 }
 #keno-r-6 {
     color: rgb(162, 116, 255);
