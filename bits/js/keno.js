@@ -1,20 +1,20 @@
 var keno = {
     jurisdiction: "qld",
-    timer: null,
     poll: 0,
-    refresh: new Date(),
+    refresh: null,
+    interval: null,
     num: -1,
     proxy: -1,
-    proxies: [ 
+    proxies: [
         "https://corsproxy.io/?",
         "https://api.allorigins.win/get?url=",
-        "https://api.codetabs.com/v1/proxy/?quest="
-    ]
+        "https://api.codetabs.com/v1/proxy/?quest=",
+    ],
 };
 
 function keno_proxy(url) {
     keno.proxy += 1;
-    if(keno.proxy >= keno.proxies.length) keno.proxy = 0;
+    if (keno.proxy >= keno.proxies.length) keno.proxy = 0;
     return keno.proxies[keno.proxy] + encodeURIComponent(url);
 }
 
@@ -102,7 +102,7 @@ function keno_timer(secs, cur) {
     var d = cur != null ? new Date(cur) : new Date();
 
     d.setMilliseconds(0); // stay aligned to milliseconds
-    if(secs != null) d.setSeconds(d.getSeconds() + secs);
+    if (secs != null) d.setSeconds(d.getSeconds() + secs);
 
     return d;
 }
@@ -145,7 +145,8 @@ function keno_build(data) {
 function keno_fetch() {
     keno.poll = -1; // pause refreshes
 
-    var head = {}, uri = keno_api();
+    var head = {},
+        uri = keno_api();
     console.log("script get: ", uri, head);
 
     $.ajax({
@@ -173,11 +174,12 @@ function keno_fetch() {
 function keno_update() {
     var time = keno_timer();
 
-    if(keno.poll >= 0 && time >= keno.refresh) keno_fetch();
+    if (keno.poll >= 0 && time >= keno.refresh) keno_fetch();
 
     var next = (keno.refresh.getTime() - time.getTime()) / 1000,
-        time = getelem("keno-t-timer"), game = getelem("keno-t-ngame");
-    
+        time = getelem("keno-t-timer"),
+        game = getelem("keno-t-ngame");
+
     time.innerHTML = next;
     game.innerHTML = keno.poll;
 
@@ -194,18 +196,18 @@ function keno_init() {
         keno.num = -1;
     }
 
-    keno.poll = 1;
-    keno.refresh = keno_timer(1);
-    if (keno.timer != null) window.clearInterval(keno.timer);
-    keno.timer = window.setInterval(keno_update, 1000);
+    keno.poll = 0;
+    keno.refresh = keno_timer();
+    if (keno.interval != null) window.clearInterval(keno.interval);
+    keno.interval = window.setInterval(keno_update, 1000);
 
-    console.log("keno init: ", keno.num, keno.refresh, keno.timer);
+    console.log("keno init: ", keno.num, keno.refresh, keno.interval);
 }
 
 $(document).ready(function ($) {
-    keno_init();
+    window.setTimeout(keno_init, 250);
 });
 
-$(window).on('hashchange', function() {
-    keno_init();
+$(window).on("hashchange", function () {
+    window.setTimeout(keno_init, 250);
 });
