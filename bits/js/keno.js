@@ -91,10 +91,10 @@ function mkelem(name) {
 }
 
 function keno_timer(secs, cur) {
-    var d = cur ? new Date(cur) : new Date();
+    var d = cur != null ? new Date(cur) : new Date();
 
     d.setMilliseconds(0); // stay aligned to milliseconds
-    d.setSeconds(d.getSeconds() + (secs ? secs + 1 : 1));
+    d.setSeconds(d.getSeconds() + (secs != null ? secs : 1));
 
     return d;
 }
@@ -135,8 +135,7 @@ function keno_build(data) {
 }
 
 function keno_fetch() {
-    var head = {},
-        uri = keno_api();
+    var head = {}, uri = keno_api();
     console.log("script get: ", uri, head);
 
     $.ajax({
@@ -156,7 +155,7 @@ function keno_fetch() {
         error: function (hdrs, status, err) {
             console.log("script failure: ", uri, status, err);
             keno.poll = 0; // delay the timer
-            keno.refresh = keno_timer(3000);
+            keno.refresh = keno_timer(3);
         },
     });
 }
@@ -184,7 +183,7 @@ function keno_init() {
     }
 
     keno.poll = 0;
-    keno.refresh = keno_timer();
+    keno.refresh = keno_timer(1);
     if (keno.timer != null) window.clearInterval(keno.timer);
     keno.timer = window.setInterval(keno_update, 1000);
 
