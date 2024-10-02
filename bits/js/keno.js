@@ -151,9 +151,9 @@ function keno_script()
         accepts: {
             "*": "application/vnd.tabcorp.keno.kds+json; charset=utf-8; encoding=json"
         },
-        success: function(data, status, hdrs) {
+        success: function(data, status, req) {
             console.log('script success: ', uri, status, data);
-            keno_build(data, request.getResponseHeader('KDS-Next-Poll'));
+            keno_build(data, req.getResponseHeader('KDS-Next-Poll'));
         },
         error: function(hdrs, status, err) {
             console.log('script failure: ', uri, status, err);
