@@ -35,9 +35,10 @@ a:hover, a:active {
 #navbar {
     width: 900px;
     float: right;
-    margin-top: 16px;
     vertical-align: middle;
     text-align: right;
+    padding-left: 16px;
+    padding-right: 16px;
 }
 #navbar-sm {
     width: 800px;
