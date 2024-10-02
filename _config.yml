@@ -6,9 +6,6 @@ organisation: kenoau
 website: https://kenoau.redeclipse.net/
 email: contact@redeclipse.net
 github: [metadata]
-locs:
-  api: "https://api.github.com"
-  ref: "https://github.com"
 
 # Where things are
 source: "."
