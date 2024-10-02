@@ -125,7 +125,6 @@ function keno_build(data, secs) {
         if(keno_draw != null) {
 
             for(var i = 0; i < keno_draw.length; i++) {
-                console.log('script populate: ', i, keno_draw[i]);
                 var keno_cur = getelem('keno-n-' + keno_draw[i]);
                 if(keno_cur != null) keno_cur.innerHTML = '<b>' + keno_draw[i] + '</b>';
             }
