@@ -167,6 +167,8 @@ function keno_update() {
 
     var time = getelem("keno-timer");
     if(time != null) time.innerHTML = (keno.refresh - time) / 1000;
+
+    console.log("keno update: ", time.innerHTML);
 }
 
 function keno_init() {
@@ -183,6 +185,8 @@ function keno_init() {
     keno.refresh = keno_timer();
     if (keno.timer != null) window.clearInterval(keno.timer);
     keno.timer = window.setInterval(keno_update, 1000);
+
+    console.log("keno init: ", keno.num, keno.refresh, keno.timer);
 }
 
 $(document).ready(function ($) {
