@@ -103,6 +103,7 @@ function getrand(max) {
 function keno_timer(secs = 0) {
     var d = new Date(), q = d;
 
+    d.setMilliseconds(0);
     d.setSeconds(d.getSeconds() + secs);
 
     console.log("keno timer: ", secs, d.getTime(), q.getTime());
@@ -177,7 +178,7 @@ function keno_fetch() {
 }
 
 function keno_update() {
-    var cur = keno_timer();
+    var cur = new Date();
 
     if (keno.poll >= 0 && cur >= keno.refresh) keno_fetch();
 
