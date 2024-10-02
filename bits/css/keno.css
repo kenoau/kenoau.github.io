@@ -7,7 +7,6 @@
     margin-right: auto;
     border-collapse: separate;
     border-spacing: 2px;
-    font-size: 3vw;
 }
 
 .keno-center {
@@ -22,15 +21,15 @@
 
 .keno-number, .keno-info {
     width: 5%;
+    max-width: 5%;
     display: table-cell;
-    border: 2px solid rgb(64, 64, 255);
+    border: 2px solid rgb(32, 32, 32);
     border-radius: 8px;
     vertical-align: middle;
-    font-size: 3vw;
 }
 
 #keno-top {
-    height: 3em;
+    height: 2em;
 }
 
 #keno-t-label {
@@ -38,44 +37,52 @@
 }
 
 .keno-title {
-    font-size: 0.5em;
+    font-size: 0.25vw;
     font-weight: bold;
 }
 
 .keno-value {
-    font-size: 0.75em;
+    font-size: 0.5vw;
     text-shadow: 0px 0px 1vw rgb(255, 255, 255, 0.5);
 }
 
 #keno-r-0 {
+    font-size: 2.5vw;
     color: rgb(255, 128, 128);
     text-shadow: 0px 0px 2vw rgb(255, 128, 128, 0.75);
 }
 #keno-r-1 {
+    font-size: 2.5vw;
     color: rgb(92, 92, 255);
     text-shadow: 0px 0px 2vw rgb(92, 92, 255, 0.75);
 }
 #keno-r-2 {
+    font-size: 2.5vw;
     color: rgb(64, 255, 64);
     text-shadow: 0px 0px 2vw rgb(64, 255, 64, 0.75);
 }
 #keno-r-3 {
+    font-size: 2.5vw;
     color: rgb(255, 255, 64);
     text-shadow: 0px 0px 2vw rgb(255, 255, 64, 0.75);
 }
 #keno-r-4 {
+    font-size: 2.5vw;
     color: rgb(255, 128, 255);
     text-shadow: 0px 0px 2vw rgb(255, 128, 255, 0.75);
 }
 #keno-r-5 {
+    font-size: 2.5vw;
     color: rgb(255, 142, 86);
     text-shadow: 0px 0px 2vw rgb(255, 142, 86, 0.75);
 }
 #keno-r-6 {
+    font-size: 2.5vw;
     color: rgb(64, 192, 192);
     text-shadow: 0px 0px 2vw rgb(64, 192, 192, 0.75);
 }
 #keno-r-7 {
+    font-size: 2.5vw;
     color: rgb(162, 116, 255);
     text-shadow: 0px 0px 2vw rgb(162, 116, 255, 0.75);
 }
