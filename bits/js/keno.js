@@ -130,7 +130,7 @@ function keno_build() {
         keno_elem.innerHTML += '<tr id="keno-r-' + i + '" class="keno-center">';
         for(var j = 1; j < 11; j++) {
             var keno_number  = i * 10 + j;
-            keno_elem.innerHTML += '<td id="keno-n-' + keno_number + '" class="keno-center"></td>';
+            keno_elem.innerHTML += '<td id="keno-n-' + keno_number + '" class="keno-center">&nbsp;</td>';
         }
         keno_elem.innerHTML += '</tr>';
     }
