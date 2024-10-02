@@ -165,7 +165,7 @@ function keno_update() {
     if (time >= keno.refresh) keno_fetch();
 
     var next = (keno.refresh.getTime() - time.getTime()) / 1000,
-        time = getelem("keno-t-timer");
+        time = getelem("keno-t-timer"), game = getelem("keno-t-ngame");
     
     time.innerHTML = next;
     game.innerHTML = keno.poll;
