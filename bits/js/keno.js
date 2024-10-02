@@ -198,14 +198,6 @@ function keno_update() {
 
     time.innerHTML = next;
     game.innerHTML = keno.poll;
-
-    console.log(
-        "keno update: ",
-        keno.refresh.getTime(),
-        cur.getTime(),
-        next,
-        keno.poll
-    );
 }
 
 function keno_init() {
