@@ -132,7 +132,7 @@ function keno_build(data, secs) {
         }
     }
 
-    var timeout = secs == NULL ? secs * 10000 : 60000;
+    var timeout = secs != null ? secs * 10000 : 60000;
     keno_timer = window.setTimeout(keno_script, timeout);
 }
 
