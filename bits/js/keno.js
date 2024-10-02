@@ -132,13 +132,16 @@ function keno_build(data, secs) {
         }
     }
 
-    var timeout = secs != null ? secs * 1000 : 30000;
+    var timeout = (secs != null ? secs * 1000 : 30000) + 500;
     keno_timer = window.setTimeout(keno_script, timeout);
 }
 
 function keno_script()
 {
-    window.clearTimeout(keno_timer);
+    if(keno_timer != null) {
+        window.clearTimeout(keno_timer);
+        keno_timer = null;
+    }
 
     var head = {}, uri = keno_api();
     console.log('script get: ', uri, head);
