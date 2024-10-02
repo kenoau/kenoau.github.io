@@ -98,13 +98,13 @@ function mkelem(name) {
     return document.createElement(name);
 }
 
-function keno_timer(secs = null, cur = null) {
-    var d = cur != null ? cur : new Date();
+function keno_timer(secs = 0, cur = new Date()) {
+    var d = cur;
 
     d.setMilliseconds(0); // stay aligned to milliseconds
-    if (secs != null) d.setSeconds(d.getSeconds() + secs);
+    d.setSeconds(d.getSeconds() + secs);
 
-    console.log("keno timer: ", secs, d.getTime());
+    console.log("keno timer: ", secs, cur.getTime(), d.getTime());
 
     return d;
 }
