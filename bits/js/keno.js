@@ -131,12 +131,14 @@ function keno_build() {
         for(var j = 1; j < 11; j++) {
             var keno_number  = i * 10 + j;
             keno_elem.innerHTML += '<td id="keno-n-' + keno_number + '" class="keno-center">&nbsp;</td>';
+            console.log('script build: ', i, j);
         }
         keno_elem.innerHTML += '</tr>';
     }
 
-    var keno_draw = keno_data.current.draw[0];
+    var keno_draw = keno_data.current.draw;
     for(var i = 0; i < keno_draw.length; i++) {
+        console.log('script populate: ', i, keno_draw[i]);
         var keno_cur = getelem('keno-n-' + keno_draw[i]);
         if(keno_cur != null) {
             keno_cur.innerHTML = '<b>' + keno_draw[i] + '</b>';
