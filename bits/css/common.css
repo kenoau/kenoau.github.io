@@ -98,9 +98,6 @@ a:hover, a:active {
         font-size: 20px;
     }
 }
-.navbar-toggle {
-    margin-top: 23px;
-}
 .navbar-brand {
     font-weight: bolder;
     height: auto;
