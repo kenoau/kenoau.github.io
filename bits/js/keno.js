@@ -1,5 +1,5 @@
 var keno_num = -1;
-var keno_time = Date(now());
+var keno_time = new Date();
 var keno_jurisdiction = 'qld';
 var keno_data = {};
 
@@ -106,7 +106,6 @@ function keno_setup()
     else {
         keno_num = -1;
     }
-    keno_time = Date(now());
 }
 
 function keno_date(data) {
