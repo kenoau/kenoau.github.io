@@ -201,7 +201,7 @@ function keno_init() {
     if (keno.interval != null) window.clearInterval(keno.interval);
     keno.interval = window.setInterval(keno_update, 1000);
 
-    console.log("keno init: ", keno.num, keno.refresh, keno.interval);
+    console.log("keno init: ", keno.num, keno.refresh.getTime(), keno.interval);
 }
 
 $(document).ready(function ($) {
