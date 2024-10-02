@@ -18,6 +18,7 @@
 }
 
 .keno-number {
+    width: auto;
     border: 2px solid rgb(64, 64, 255);
     border-radius: 8px;
     vertical-align: middle;
