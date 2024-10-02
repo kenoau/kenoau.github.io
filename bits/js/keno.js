@@ -148,7 +148,7 @@ function keno_script(uri)
         success: function(data) {
             keno_data = data;
             keno_build();
-            console.log('script success: ', uri, data);
+            console.log('script success: ', uri, JSON.stringify(data, null, 4));
         },
         error: function() {
             console.log('script failure: ', uri);

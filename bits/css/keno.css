@@ -10,6 +10,31 @@
     font-size: 3vw;
 }
 
+#keno-r-0 {
+    color: rgb(255, 64, 64);
+}
+#keno-r-1 {
+    color: rgb(255, 128, 64);
+}
+#keno-r-2 {
+    color: rgb(255, 255, 64);
+}
+#keno-r-3 {
+    color: rgb(64, 255, 64);
+}
+#keno-r-4 {
+    color: rgb(64, 255, 255);
+}
+#keno-r-5 {
+    color: rgb(128, 128, 255);
+}
+#keno-r-6 {
+    color: rgb(128, 64, 255);
+}
+#keno-r-7 {
+    color: rgb(255, 128, 255);
+}
+
 .keno-center {
     text-align: center;
 }
