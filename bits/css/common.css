@@ -103,6 +103,7 @@ a:hover, a:active {
     margin-top: 23px;
 }
 .navbar-brand {
+    margin-top: 23px;
     font-weight: bolder;
     height: auto;
     padding: 0;
