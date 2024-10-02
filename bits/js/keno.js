@@ -137,7 +137,7 @@ function keno_build(data) {
     }
 
     if (data != null && data.current != null) {
-        getelem("keno-game-value").innerHTML = data.current.game;
+        getelem("keno-game-value").innerHTML = data.current["game-number"];
 
         if (data.current.variants != null) {
             getelem("keno-heads-value").innerHTML =
