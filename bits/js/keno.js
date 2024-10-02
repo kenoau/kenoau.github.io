@@ -135,6 +135,8 @@ function keno_build(data) {
 }
 
 function keno_fetch() {
+    keno.poll = -1; // pause refreshes
+
     var head = {}, uri = keno_api();
     console.log("script get: ", uri, head);
 
@@ -162,7 +164,8 @@ function keno_fetch() {
 
 function keno_update() {
     var time = keno_timer();
-    if (time >= keno.refresh) keno_fetch();
+
+    if(keno.poll >= 0 && time >= keno.refresh) keno_fetch();
 
     var next = (keno.refresh.getTime() - time.getTime()) / 1000,
         time = getelem("keno-t-timer"), game = getelem("keno-t-ngame");
