@@ -3,11 +3,19 @@ var keno = {
     timer: null,
     poll: 0,
     refresh: new Date(),
-    num: -1
+    num: -1,
+    proxy: -1,
+    proxies: [ 
+        "https://corsproxy.io/?",
+        "https://api.allorigins.win/get?url=",
+        "https://api.codetabs.com/v1/proxy/?quest="
+    ]
 };
 
 function keno_proxy(url) {
-    return "https://corsproxy.io/?" + encodeURIComponent(url);
+    keno.proxy += 1;
+    if(keno.proxy >= keno.proxies.length) keno.proxy = 0;
+    return keno.proxies[keno.proxy] + encodeURIComponent(url);
 }
 
 function keno_api() {
