@@ -165,8 +165,10 @@ function keno_update() {
     var time = keno_timer();
     if (time >= keno.refresh) keno_fetch();
 
-    var time = getelem("keno-timer");
-    if(time != null) time.innerHTML = (keno.refresh - time) / 1000;
+    var next = (keno.refresh - time) / 1000,
+        time = getelem("keno-t-timer");
+    
+    if(time != null) time.innerHTML = next;
 
     console.log("keno update: ", time.innerHTML);
 }
