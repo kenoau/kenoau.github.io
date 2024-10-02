@@ -113,6 +113,37 @@ function keno_date(data) {
     return d.getFullYear() + '-' + d.getMonth().zeropad() + '-' + d.getDate().zeropad() + ' ' + d.getHours() + ':' + d.getMinutes().zeropad() + ':' + d.getSeconds().zeropad();
 }
 
+function keno_build() {
+    if(keno_data == null) {
+        console.log('keno data not found');
+        return;
+    }
+
+    var keno_elem = getelem('keno-body');
+    if(keno_elem == null) {
+        console.log('keno element not found');
+    }
+
+    keno_elem.innerHTML = '';
+
+    for(var i = 0; i < 8; i++) {
+        keno_elem.innerHTML += '<tr id="keno-r-' + i + ' class="keno-center">';
+        for(var j = 1; j < 11; j++) {
+            var keno_number  = i * 10 + j;
+            keno_elem.innerHTML += '<td id="keno-n-' + keno_number + ' class="keno-center"></td>';
+        }
+        keno_elem.innerHTML += '</tr>';
+    }
+
+    var keno_draw = keno_data.current.draw[0];
+    for(var i = 0; i < keno_draw.length; i++) {
+        var keno_cur = getelem('keno-n-' + keno_draw[i]);
+        if(keno_cur != null) {
+            keno_cur.innerHTML = '<b>' + keno_draw[i] + '</b>';
+        }
+    }
+}
+
 function keno_script(uri)
 {
     var head = {};
@@ -126,6 +157,7 @@ function keno_script(uri)
         },
         success: function(data) {
             keno_data = data;
+            keno_build();
             console.log('script success: ', uri, data);
         },
         error: function() {
@@ -134,24 +166,9 @@ function keno_script(uri)
     });
 }
 
-function keno_build() {
-    if(keno_data == null) {
-        console.log('keno data not found');
-        return;
-    }
-
-    var keno_elem = getelem('keno');
-    if(keno_elem == null) {
-        console.log('keno element not found');
-    }
-
-    keno_elem.innerHTML = JSON.stringify(keno_data, null, 4);
-}
-
 $(document).ready(function ($) {
     keno_setup();
     keno_script(keno_api());
-    keno_build();
 });
 
 $(window).on('hashchange', function() {
