@@ -103,7 +103,6 @@ function getrand(max) {
 function keno_timer(secs = 0) {
     var d = new Date(), q = d;
 
-    d.setMilliseconds(0); // stay aligned to milliseconds
     d.setSeconds(d.getSeconds() + secs);
 
     console.log("keno timer: ", secs, d.getTime(), q.getTime());
