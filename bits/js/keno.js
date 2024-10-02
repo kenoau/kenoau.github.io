@@ -184,7 +184,7 @@ function keno_update() {
 
     if (keno.poll >= 0 && cur >= keno.refresh) keno_fetch();
 
-    var next = (keno.refresh.getTime() - cur.getTime()) / 1000,
+    var next = Math.floor((keno.refresh.getTime() - cur.getTime()) / 1000),
         time = getelem("keno-t-timer"),
         game = getelem("keno-t-ngame");
 
