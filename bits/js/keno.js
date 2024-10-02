@@ -102,7 +102,7 @@ function keno_timer(secs, cur) {
     var d = cur != null ? new Date(cur) : new Date();
 
     d.setMilliseconds(0); // stay aligned to milliseconds
-    d.setSeconds(d.getSeconds() + (secs != null ? secs : 1));
+    if(secs != null) d.setSeconds(d.getSeconds() + secs);
 
     return d;
 }
