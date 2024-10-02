@@ -1,6 +1,6 @@
 @charset "utf-8";
 #keno-grid {
-    width: 100%;
+    width: auto;
     max-width: 100%;
     border: none;
     vertical-align: middle;
@@ -18,9 +18,10 @@
 }
 
 .keno-number {
-    width: auto;
+    width: 5%;
+    margin: 1%;
     border: 2px solid rgb(64, 64, 255);
-    border-radius: 8px;
+    border-radius: 16px;
     vertical-align: middle;
     font-size: 3vw;
 }
