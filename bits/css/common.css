@@ -104,10 +104,10 @@ a:hover, a:active {
     margin-top: 23px;
 }
 .navbar-brand {
-    margin-top: 16px;
     font-weight: bolder;
     height: auto;
-    padding: 0;
+    padding-left: 16px;
+    padding-right: 16px;
 }
 .navbar-brand:hover, .navbar-brand:active {
     text-shadow: -1px -1px 5px rgb(0, 0, 255);
