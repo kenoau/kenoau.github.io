@@ -119,30 +119,16 @@ function keno_build() {
         return;
     }
 
-    var keno_elem = getelem('keno-body');
-    if(keno_elem == null) {
-        console.log('keno element not found');
-    }
-
-    keno_elem.innerHTML = '';
-
-    for(var i = 0; i < 8; i++) {
-        keno_elem.innerHTML += '<tr id="keno-r-' + i + '" class="keno-center">';
-        for(var j = 1; j < 11; j++) {
-            var keno_number  = i * 10 + j;
-            keno_elem.innerHTML += '<td id="keno-n-' + keno_number + '" class="keno-center">&nbsp;</td>';
-            console.log('script build: ', i, j);
-        }
-        keno_elem.innerHTML += '</tr>';
+    for(var i = 1; i <= 80; i++) {
+        var keno_elem = getelem('keno-n-' + i);
+        if(keno_elem != null) keno_elem.innerHTML = '&nbsp;';
     }
 
     var keno_draw = keno_data.current.draw;
     for(var i = 0; i < keno_draw.length; i++) {
         console.log('script populate: ', i, keno_draw[i]);
         var keno_cur = getelem('keno-n-' + keno_draw[i]);
-        if(keno_cur != null) {
-            keno_cur.innerHTML = '<b>' + keno_draw[i] + '</b>';
-        }
+        if(keno_cur != null) keno_cur.innerHTML = '<b>' + keno_draw[i] + '</b>';
     }
 }
 
