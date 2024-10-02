@@ -154,7 +154,7 @@ function keno_fetch() {
         },
         error: function (hdrs, status, err) {
             console.log("script failure: ", uri, status, err);
-            keno.poll = 0; // delay the timer
+            keno.poll = 3; // delay the timer
             keno.refresh = keno_timer(3);
         },
     });
@@ -164,12 +164,14 @@ function keno_update() {
     var time = keno_timer();
     if (time >= keno.refresh) keno_fetch();
 
-    var next = (keno.refresh - time) / 1000,
-        time = getelem("keno-t-timer");
+    var next = (keno.refresh.getTime() - time.getTime()) / 1000,
+        time = getelem("keno-t-timer"),
+        game = getelem("keno-t-ngame");
     
-    if(time != null) time.innerHTML = next;
+    time.innerHTML = next;
+    game.innerHTML = time + ' ' + keno.refresh;
 
-    console.log("keno update: ", time.innerHTML);
+    console.log("keno update: ", time.innerHTML, game.innerHTML);
 }
 
 function keno_init() {
