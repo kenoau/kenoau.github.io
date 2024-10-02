@@ -102,13 +102,13 @@ function getrand(max) {
     return Math.floor(Math.random() * max);
 }
 
-function keno_timer(secs = 0, cur = new Date()) {
-    var d = cur;
+function keno_timer(secs = 0) {
+    var d = new Date(), q = d;
 
     d.setMilliseconds(0); // stay aligned to milliseconds
     d.setSeconds(d.getSeconds() + secs);
 
-    console.log("keno timer: ", secs, cur.getTime(), d.getTime());
+    console.log("keno timer: ", secs, d.getTime(), q.getTime());
 
     return d;
 }
@@ -153,6 +153,7 @@ function keno_fetch() {
 
     var head = {},
         uri = keno_api();
+    
     console.log("script get: ", uri, head);
 
     $.ajax({
@@ -225,11 +226,11 @@ function keno_init() {
 }
 
 function keno_start() {
-    var d = new Date();
+    if (keno.interval != null) window.clearInterval(keno.interval);
+
     keno.poll = -1;
     keno.proxy = getrand(keno.proxies.length);
-    if (keno.interval != null) window.clearInterval(keno.interval);
-    window.setTimeout(keno_init, 1000 + (1000 - d.getMilliseconds()));
+    window.setTimeout(keno_init, 1000 + (1000 - (new Date()).getMilliseconds()));
 }
 
 $(document).ready(function ($) {
