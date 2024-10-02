@@ -141,6 +141,7 @@ function keno_script(uri)
         method: "GET",
         url: uri,
         headers: head,
+        cache: false,
         accepts: {
             "*": "application/vnd.tabcorp.keno.kds+json; charset=utf-8; encoding=json"
         },
