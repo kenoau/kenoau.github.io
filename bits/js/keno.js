@@ -187,8 +187,11 @@ function keno_update() {
 }
 
 function keno_init() {
+    if (keno.interval != null) window.clearInterval(keno.interval);
+
     var url = window.location.hash,
         idx = url.indexOf("#");
+
     if (idx >= 0) {
         var str = url.substring(idx + 1);
         keno.num = parseInt(str);
@@ -198,16 +201,17 @@ function keno_init() {
 
     keno.poll = 0;
     keno.refresh = keno_timer();
-    if (keno.interval != null) window.clearInterval(keno.interval);
     keno.interval = window.setInterval(keno_update, 1000);
 
     console.log("keno init: ", keno.num, keno.refresh.getTime(), keno.interval);
 }
 
-$(document).ready(function ($) {
-    window.setTimeout(keno_init, 250);
-});
+function keno_start() {
+    var d = new Date();
+    keno.poll = -1;
+    if (keno.interval != null) window.clearInterval(keno.interval);
+    window.setTimeout(keno_init, 1000 - d.getMilliseconds());
+}
 
-$(window).on("hashchange", function () {
-    window.setTimeout(keno_init, 250);
-});
+$(document).ready(function ($) { keno_start(); });
+$(window).on("hashchange", function () { keno_start(); });
