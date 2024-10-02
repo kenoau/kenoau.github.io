@@ -169,7 +169,7 @@ function keno_fetch() {
             
             var next = req.getResponseHeader("KDS-Next-Poll");
             if (next == null) keno.poll = 10;
-            else keno.poll = parseInt(keno.poll) + 1;
+            else keno.poll = parseInt(next) + 1;
             
             keno.refresh = keno_timer(keno.poll);
             
