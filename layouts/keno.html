@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <title>{{ site.title | default: site.github.repository_name }}: {{ page.title | default: page.path }}</title>
+        {% assign cssclass = 'default' %}
+        {% include head.html %}
+        <link rel="stylesheet" type="text/css" href="/bits/css/keno.css" />
+        <script type="text/javascript" src="/bits/js/showdown.min.js"></script>
+        <script type="text/javascript" src="/bits/js/keno.js"></script>
+    </head>
+    <body>
+        {% include nav.html %}
+        <div class="container pagecontent">
+            <div id="keno-container" class="main pagecontainer">
+                <h1>{{ page.title | default: page.path }}</h1>
+                <table id="keno-front" class="keno-left">
+                    <thead id="keno-link" class="keno-left">
+                        <tr id="keno-l-row" class="keno-left">
+                            <th id="keno-l-data" class="keno-left">
+                                <a id="keno-index" class="keno-left" href="#">Index</a>
+                                | <a id="keno-reload" class="keno-left" onclick="location.reload();">Refresh</a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="keno-information" class="keno-left">
+                        <tr id="keno-i-row" class="keno-left">
+                            <td id="keno-i-data" class="keno-left">
+                                Work in progress. This page is being updated.
+                            </td>
+                            <td id="keno-i-right" class="keno-right"></td>
+                        </tr>
+                        <tr id="keno-i-content" class="keno-left">
+                            <td id="keno-i-contentdata" class="keno-left keno-nomargins">{{ content | markdownify }}</td>
+                            <td id="keno-i-contentright" class="keno-right"></td>
+                        </tr>
+                    </tbody>
+                    <tfoot id="keno-extra" class="keno-left"></tbody>
+                </table>
+                <table id="keno-table" class="keno-left">
+                    <thead id="keno-header" class="keno-left">
+                        <tr id="keno-h-load" class="keno-left">
+                            <th id="keno-h-loading" class="keno-left"><span class="fas fa-cog fa-spin"></span> Loading...</th>
+                        </tr>
+                    </thead>
+                    <tbody id="keno-body" class="keno-left"></tbody>
+                    <tfoot id="keno-post" class="keno-left"></tbody>
+                </table>
+                <table id="keno-more" class="keno-left">
+                    <thead id="keno-morehead" class="keno-left">
+                        <tr id="keno-h-more" class="keno-left" style="display: none">
+                            <th id="keno-h-loading" class="keno-center"><a id="keno-getmore" class="keno-middle" onclick="keno_more();">Load More</a></th>
+                        </tr>
+                    </thead>
+                    <tbody id="keno-morebody" class="keno-left"></tbody>
+                    <tfoot id="keno-morextra" class="keno-left"></tbody>
+                </table>
+            </div>
+            {% include footer.html %}
+        </div>
+    </body>
+</html>

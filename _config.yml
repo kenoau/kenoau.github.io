@@ -1,0 +1,81 @@
+# Site settings
+title: Australian Keno Montior
+description: Monitor and tabulate Keno results from Australian venues
+repository: kenoau/kenoau.github.io
+organisation: kenoau
+website: https://kenoau.redeclipse.net/
+email: contact@redeclipse.net
+github: [metadata]
+locs:
+  api: "https://api.github.com"
+  ref: "https://github.com"
+
+# Where things are
+source: "."
+collections_dir: "pages"
+layouts_dir: "layouts"
+data_dir: "data"
+includes_dir: "includes"
+
+# Handling Reading
+exclude:
+  - "_site"
+  - ".github"
+  - "plugins"
+  - "layouts"
+  - "data"
+  - "includes"
+  - "_config.yml"
+  - "CNAME"
+  - "Gemfile"
+  - "Gemfile.lock"
+encoding: "utf-8"
+markdown_ext: "markdown,mkdown,mkdn,mkd,md"
+strict_front_matter: false
+
+# Filtering Content
+show_drafts: null
+limit_posts: 0
+future: false
+unpublished: false
+
+# Plugins
+plugins:
+  - jekyll-avatar
+  - jekyll-mentions
+  - jekyll-redirect-from
+  - jekyll-sitemap
+  - jekyll-paginate
+  - jemoji
+
+# Conversion
+markdown: kramdown
+highlighter: rouge
+excerpt_separator: "\n\n"
+paginate: 25
+
+#collections:
+#  discussion:
+#    output: true
+#    permalink: /:collection/:title/
+
+# Outputting
+# permalink: date
+# paginate_path: /page:num
+# timezone: null
+
+# Markdown Processors
+kramdown:
+    auto_ids: true
+    entity_output: as_char
+    toc_levels: 1..6
+    smart_quotes: lsquo,rsquo,ldquo,rdquo
+    input: GFM
+    hard_wrap: false
+    footnote_nr: 1
+    show_warnings: false
+
+# Relative links
+relative_links:
+  enabled: true
+  collections: false
