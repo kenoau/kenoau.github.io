@@ -15,7 +15,7 @@ It is important to include the appropriate YAML [Front Matter](https://jekyllrb.
 Layouts are generally HTML templates that are used by inserting content and generating a static HTML page. You can see which layouts are available in the [layouts directory](https://github.com/kenoau/kenoau.github.io/tree/master/layouts).
 
 - **default:** Used for rendering normal pages within the site, and, as the name implies, is the default if omitted from the front matter.
-- **docs:** Used by the files generated from the [Documentation Repository](https://github.com/kenoau/docs).
+- **docs:** Used by the documentation.
 - **dynredir:** As the normal "redirect_to" does not allow the insertion of [variables](https://jekyllrb.com/docs/variables/), you can create an HTML file with this layout and define the URL in the content area.
 - **home:** A special template used for the home page to arrange all the fancy stuff.
 - **redirect:** Used by [jekyll-redirect-from](https://github.com/jekyll/jekyll-redirect-from), see their [usage](https://github.com/jekyll/jekyll-redirect-from#usage) for more information.
