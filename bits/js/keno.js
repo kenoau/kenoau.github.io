@@ -98,8 +98,8 @@ function mkelem(name) {
     return document.createElement(name);
 }
 
-function keno_timer(secs, cur) {
-    var d = cur != null ? new Date(cur) : new Date();
+function keno_timer(secs = null, cur = null) {
+    var d = cur != null ? cur : new Date();
 
     d.setMilliseconds(0); // stay aligned to milliseconds
     if (secs != null) d.setSeconds(d.getSeconds() + secs);
@@ -160,6 +160,7 @@ function keno_fetch() {
         success: function (data, status, req) {
             console.log("script success: ", uri, status, data);
             keno.poll = req.getResponseHeader("KDS-Next-Poll");
+            if(keno.poll == null) keno.poll = 10;
             keno.refresh = keno_timer(keno.poll);
             keno_build(data);
         },
@@ -183,7 +184,7 @@ function keno_update() {
     time.innerHTML = next;
     game.innerHTML = keno.poll;
 
-    console.log("keno update: ", next, keno.poll);
+    console.log("keno update: ", keno.refresh.getTime(), time.getTime(), next, keno.poll);
 }
 
 function keno_init() {
