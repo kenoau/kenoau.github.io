@@ -1,4 +1,5 @@
 var keno_jurisdiction = 'qld';
+var keno_timer = null;
 
 function keno_proxy(url) {
     return 'https://corsproxy.io/?' + encodeURIComponent(url); 
@@ -132,13 +133,16 @@ function keno_build(data, secs) {
     }
 
     var timeout = secs == NULL ? secs * 10000 : 60000;
-    window.setTimeout(keno_script, timeout);
+    keno_timer = window.setTimeout(keno_script, timeout);
 }
 
 function keno_script()
 {
+    window.clearTimeout(keno_timer);
+
     var head = {}, uri = keno_api();
     console.log('script get: ', uri, head);
+
     $.ajax({
         method: "GET",
         url: uri,
@@ -164,5 +168,4 @@ $(document).ready(function ($) {
 
 $(window).on('hashchange', function() {
     keno_setup();
-    keno_build();
 });
