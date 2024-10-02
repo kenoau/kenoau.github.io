@@ -104,6 +104,8 @@ function keno_timer(secs = null, cur = null) {
     d.setMilliseconds(0); // stay aligned to milliseconds
     if (secs != null) d.setSeconds(d.getSeconds() + secs);
 
+    console.log("keno timer: ", secs, d.getTime());
+
     return d;
 }
 
@@ -160,7 +162,7 @@ function keno_fetch() {
         success: function (data, status, req) {
             console.log("script success: ", uri, status, data);
             keno.poll = req.getResponseHeader("KDS-Next-Poll");
-            if(keno.poll == null) keno.poll = 10;
+            if (keno.poll == null) keno.poll = 10;
             keno.refresh = keno_timer(keno.poll);
             keno_build(data);
         },
@@ -184,7 +186,13 @@ function keno_update() {
     time.innerHTML = next;
     game.innerHTML = keno.poll;
 
-    console.log("keno update: ", keno.refresh.getTime(), cur.getTime(), next, keno.poll);
+    console.log(
+        "keno update: ",
+        keno.refresh.getTime(),
+        cur.getTime(),
+        next,
+        keno.poll
+    );
 }
 
 function keno_init() {
@@ -204,15 +212,24 @@ function keno_init() {
     keno.refresh = keno_timer();
     keno.interval = window.setInterval(keno_update, 1000);
 
-    console.log("keno init: ", keno.num, keno.refresh.getTime(), keno.interval);
+    console.log(
+        "keno init: ",
+        keno.num,
+        keno.refresh.getTime(),
+        new Date().getTime()
+    );
 }
 
 function keno_start() {
     var d = new Date();
     keno.poll = -1;
     if (keno.interval != null) window.clearInterval(keno.interval);
-    window.setTimeout(keno_init, 1000 - d.getMilliseconds());
+    window.setTimeout(keno_init, 1000 + (1000 - d.getMilliseconds()));
 }
 
-$(document).ready(function ($) { keno_start(); });
-$(window).on("hashchange", function () { keno_start(); });
+$(document).ready(function ($) {
+    keno_start();
+});
+$(window).on("hashchange", function () {
+    keno_start();
+});
