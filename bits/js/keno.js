@@ -5,9 +5,7 @@ var keno = {
     interval: null,
     num: -1,
     proxy: -1,
-    proxies: [
-        "https://corsproxy.io/?"
-    ],
+    proxies: ["https://corsproxy.io/?"],
 };
 
 function keno_proxy(url) {
@@ -101,10 +99,14 @@ function getrand(max) {
 }
 
 function keno_timer(secs = 0) {
-    var d = new Date(), q = d;
+    var d = new Date(),
+        q = d,
+        r = d.getTime();
 
-    d.setMilliseconds(0);
-    d.setSeconds(d.getSeconds() + secs);
+    r -= r % 1000;
+    r += secs * 1000;
+
+    d = new Date(r);
 
     console.log("keno timer: ", secs, d.getTime(), q.getTime());
 
@@ -151,7 +153,7 @@ function keno_fetch() {
 
     var head = {},
         uri = keno_api();
-    
+
     console.log("script get: ", uri, head);
 
     $.ajax({
@@ -228,7 +230,7 @@ function keno_start() {
 
     keno.poll = -1;
     keno.proxy = getrand(keno.proxies.length);
-    window.setTimeout(keno_init, 1000 + (1000 - (new Date()).getMilliseconds()));
+    window.setTimeout(keno_init, 1000 + (1000 - new Date().getMilliseconds()));
 }
 
 $(document).ready(function ($) {
