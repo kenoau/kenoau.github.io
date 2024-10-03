@@ -173,7 +173,7 @@ function keno_fetch() {
             keno.data.poll[0] = keno.data.poll[1] + 1;
             keno.data.refresh = keno_timer(keno.data.poll[0]);
 
-            keno.data.json = data;
+            keno.json = data;
         },
         error: function (hdrs, status, err) {
             console.log("script failure: ", uri, status, err);
@@ -181,7 +181,7 @@ function keno_fetch() {
             keno.data.poll = [10, -1]; // delay the timer
             keno.data.refresh = keno_timer(keno.data.poll[0]);
 
-            keno.data.json = null;
+            keno.json = null;
         },
     });
 }
@@ -189,7 +189,8 @@ function keno_fetch() {
 function keno_update() {
     var cur = new Date();
 
-    if (keno.data.poll[0] >= 0 && cur >= keno.data.refresh) keno_fetch();
+    if (keno.data.poll[0] >= 0 && cur >= keno.data.refresh)
+        keno_fetch();
 
     for (var i = 0; i < keno.config.numbers; i++) {
         var num = i + 1;
@@ -204,6 +205,7 @@ function keno_update() {
         getelem("keno-llast-value").innerHTML = "&nbsp;";
         getelem("keno-timer-value").innerHTML = "&nbsp;";
         getelem("keno-game-value").innerHTML = "&nbsp;";
+        console.log("keno update: ", "no JSON data");
         return;
     }
 
