@@ -217,7 +217,7 @@ DOMRect {
 function keno_call(call, rect, hide) {
     var c = getelem("keno-call");
 
-    if(hide) c.style.transition = hide ? "none" : "all 1s";
+    if (hide) c.style.transition = hide ? "none" : "all 1s";
 
     c.style.left = rect.left + "px";
     c.style.right = rect.right + "px";
@@ -318,21 +318,18 @@ function keno_update() {
     getelem("keno-bonus-value").innerHTML = bonus;
     getelem("keno-llast-value").innerHTML = last >= 0 ? last : "&nbsp;";
 
-    if (finished || call < 0) {
+    if (finished || call < 0 || call != keno.data.call)
         keno_call("&nbsp;", getelem("keno-body").getBoundingClientRect(), true);
-        keno.data.call = -1;
-    } else if (call != keno.data.call) {
-        keno_call(call, getelem("keno-body").getBoundingClientRect(), false);
-        keno.data.call = call;
-    } else {
+
+    if (finished != true && call >= 0 && call != keno.data.call) {
         keno_call(
             call,
             getelem("keno-n-" + call).getBoundingClientRect(),
             false
         );
-        keno.data.call = call;
     }
 
+    keno.data.call = call;
     keno.data.game = game;
 }
 

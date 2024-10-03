@@ -36,6 +36,8 @@
 
 #keno-call {
     position: fixed;
+    display: inline;
+    float: left;
     background-color: rgb(0, 0, 0);
     border: none;
 }
