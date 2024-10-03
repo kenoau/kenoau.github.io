@@ -28,10 +28,6 @@
     vertical-align: middle;
 }
 
-.keno-value {
-    text-transform: uppercase;
-}
-
 #keno-call {
     position: fixed;
     width: 6vw;

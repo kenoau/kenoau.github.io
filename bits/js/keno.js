@@ -252,7 +252,7 @@ function keno_update() {
 
     getelem("keno-heads-value").innerHTML = heads;
     getelem("keno-tails-value").innerHTML = tails;
-    getelem("keno-bonus-value").innerHTML = keno.json.current.variants.bonus;
+    getelem("keno-bonus-value").innerHTML = keno.json.current.variants.bonus != "reg" ? keno.json.current.variants.bonus : "x1";
     getelem("keno-llast-value").innerHTML = last >= 0 ? last : "&nbsp;";
 }
 
