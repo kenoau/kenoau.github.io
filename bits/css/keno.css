@@ -19,7 +19,7 @@
     text-align: right;
 }
 
-.keno-number {
+.keno-number, .keno-info {
     width: 5%;
     max-width: 5%;
     display: table-cell;
@@ -28,20 +28,8 @@
     vertical-align: middle;
 }
 
-.keno-info {
-    width: 5%;
-    max-width: 5%;
-    display: table-cell;
-    border: none;
-    vertical-align: middle;
-}
-
 #keno-top {
     height: 2em;
-}
-
-#keno-t-label {
-    border: none;
 }
 
 .keno-title {
