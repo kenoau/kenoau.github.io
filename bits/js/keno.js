@@ -3,7 +3,7 @@ var keno = {
         length: 160000,
         calls: {
             length: 60000,
-            delay: 2500,
+            delay: 3000,
             trans: 1000,
         },
         numbers: 80,
@@ -173,7 +173,7 @@ function keno_fetch() {
             keno.data.poll[1] = parseInt(
                 req.getResponseHeader("KDS-Next-Poll")
             );
-            keno.data.poll[0] = keno.data.poll[1] || 10;
+            keno.data.poll[0] = keno.data.poll[1] >= 1 ? keno.data.poll[1] : 1;
             keno.data.refresh = keno_timer(keno.data.poll[0]);
             keno.json = data;
         },
@@ -198,15 +198,8 @@ function keno_call(call, rect, hide) {
 
     c.style.left = rect.left + "px";
     c.style.top = rect.top + "px";
-
-    var width = rect.width,
-        height = rect.height;
-    if (hide != true) {
-        width -= 4;
-        height -= 4;
-    }
-    c.style.width = width + "px";
-    c.style.height = height + "px";
+    c.style.width = (rect.width - 4) + "px";
+    c.style.height = (rect.height - 4) + "px";
 
     c.innerHTML = call;
 }
