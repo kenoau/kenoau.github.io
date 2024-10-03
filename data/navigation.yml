@@ -1,3 +1,6 @@
+- url: /
+  title: "Homepage"
+  class: "fas fa-house"
 - url: /docs
   title: "Documentation"
   class: "fas fa-book"
