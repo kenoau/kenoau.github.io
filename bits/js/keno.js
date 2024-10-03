@@ -192,16 +192,41 @@ function keno_fetch() {
     });
 }
 
+/*
+DOMRect {
+    x: 51.91667175292969,
+    y: 9.283340454101562,
+    width: 825.1666259765625,
+    height: 324,
+    top: 9.283340454101562,
+    right: 877.0832977294922,
+    bottom: 333.28334045410156,
+    left: 51.91667175292969
+}
+DOMRect {
+    x: 218.5500030517578,
+    y: 226.28334045410156,
+    width: 80.31666564941406,
+    height: 33,
+    top: 226.28334045410156,
+    right: 298.8666687011719,
+    bottom: 259.28334045410156,
+    left: 218.5500030517578
+}
+*/
 function keno_call(call, rect, hide) {
     var c = getelem("keno-call");
     if (c.hidden == hide) return;
 
-    c.style.left = rect.left;
-    c.style.right = rect.right;
-    c.style.top = rect.top;
-    c.style.bottom = rect.bottom;
+    c.style.left = rect.left + "px";
+    c.style.right = rect.right + "px";
+    c.style.width = rect.width + "px";
+    c.style.bottom = rect.height + "px";
+
     c.hidden = hide;
     c.innerHTML = call;
+
+    console.log("keno call: ", call, hide, rect);
 }
 
 function keno_update() {
@@ -292,8 +317,10 @@ function keno_update() {
     getelem("keno-bonus-value").innerHTML = bonus;
     getelem("keno-llast-value").innerHTML = last >= 0 ? last : "&nbsp;";
 
-    if (finished || call < 0 || call != keno.data.call) {
+    if (finished || call < 0) {
         keno_call("&nbsp;", getelem("keno-body").getBoundingClientRect(), true);
+    } else if (call != keno.data.call) {
+        keno_call(call, getelem("keno-body").getBoundingClientRect(), false);
     } else {
         keno_call(
             call,
