@@ -182,7 +182,7 @@ function keno_fetch() {
             console.log("script success: ", uri, status, data);
 
             keno.poll[1] = parseInt(req.getResponseHeader("KDS-Next-Poll"))
-            keno.poll[0] = keno.poll + 1;
+            keno.poll[0] = keno.poll[1] + 1;
             if (keno.poll[0] < 10) keno.poll[0] = 10; // minimum poll time
 
             keno.refresh = keno_timer(keno.poll[0]);
@@ -192,7 +192,7 @@ function keno_fetch() {
         error: function (hdrs, status, err) {
             console.log("script failure: ", uri, status, err);
 
-            keno.poll = [ 10, 0 ]; // delay the timer
+            keno.poll = [ 10, -1 ]; // delay the timer
             keno.refresh = keno_timer(keno.poll[0]);
         },
     });
@@ -238,7 +238,7 @@ function keno_init() {
 function keno_start() {
     if (keno.interval != null) window.clearInterval(keno.interval);
 
-    keno.poll = [ -1, 0 ];
+    keno.poll = [ -1, -1 ];
     keno.proxy = getrand(keno.proxies.length);
     window.setTimeout(keno_init, 1000 + (1000 - new Date().getMilliseconds()));
 }
