@@ -193,7 +193,7 @@ function keno_update() {
 
     for (var i = 0; i < keno.config.numbers; i++) {
         var num = i + 1;
-        getelem("keno-n-" + i).innerHTML = "&nbsp;";
+        getelem("keno-n-" + num).innerHTML = "&nbsp;";
     }
 
     if (keno.json == null) {
