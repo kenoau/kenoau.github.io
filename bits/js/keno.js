@@ -182,9 +182,7 @@ function keno_fetch() {
             console.log("script success: ", uri, status, data);
 
             keno.poll[1] = parseInt(req.getResponseHeader("KDS-Next-Poll"))
-            keno.poll[0] = keno.poll[1] + 1;
-            if (keno.poll[0] < 10) keno.poll[0] = 10; // minimum poll time
-
+            keno.poll[0] = keno.poll[1] + 5;
             keno.refresh = keno_timer(keno.poll[0]);
 
             keno_build(data);
