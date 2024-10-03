@@ -1,11 +1,13 @@
 var keno = {
     jurisdiction: "qld",
-    poll: [ 0, 0 ],
+    poll: [0, 0],
     refresh: null,
     interval: null,
+    closed: null,
     num: -1,
     proxy: -1,
     proxies: ["https://corsproxy.io/?"],
+    data: {},
 };
 
 function keno_proxy(url) {
@@ -137,6 +139,12 @@ function keno_build(data) {
     }
 
     if (data != null && data.current != null) {
+        keno.data = data; // save for later
+
+        if (data.current.closed != null)
+            keno.closed = Date.parse(data.current.closed);
+        else keno.closed = null;
+
         getelem("keno-game-value").innerHTML = data.current["game-number"];
 
         if (data.current.variants != null) {
@@ -163,7 +171,7 @@ function keno_build(data) {
 }
 
 function keno_fetch() {
-    keno.poll = [ -1, 0 ]; // pause refreshes
+    keno.poll = [-1, 0]; // pause refreshes
 
     var head = {},
         uri = keno_api();
@@ -181,7 +189,7 @@ function keno_fetch() {
         success: function (data, status, req) {
             console.log("script success: ", uri, status, data);
 
-            keno.poll[1] = parseInt(req.getResponseHeader("KDS-Next-Poll"))
+            keno.poll[1] = parseInt(req.getResponseHeader("KDS-Next-Poll"));
             keno.poll[0] = keno.poll[1] + 1;
             keno.refresh = keno_timer(keno.poll[0]);
 
@@ -190,7 +198,7 @@ function keno_fetch() {
         error: function (hdrs, status, err) {
             console.log("script failure: ", uri, status, err);
 
-            keno.poll = [ 10, -1 ]; // delay the timer
+            keno.poll = [10, -1]; // delay the timer
             keno.refresh = keno_timer(keno.poll[0]);
         },
     });
@@ -201,7 +209,10 @@ function keno_update() {
 
     if (keno.poll[0] >= 0 && cur >= keno.refresh) keno_fetch();
 
-    var next = Math.floor((keno.refresh.getTime() - cur.getTime()) / 1000);
+    var next =
+        keno.closed != null
+            ? Math.floor((cur.getTime() - keno.closed.getTime()) / 1000)
+            : 0;
 
     if (next < 0) next = 0;
 
@@ -221,7 +232,7 @@ function keno_init() {
         keno.num = -1;
     }
 
-    keno.poll = [ 0, 0 ];
+    keno.poll = [0, 0];
     keno.refresh = keno_timer();
     keno.interval = window.setInterval(keno_update, 1000);
 
@@ -236,7 +247,7 @@ function keno_init() {
 function keno_start() {
     if (keno.interval != null) window.clearInterval(keno.interval);
 
-    keno.poll = [ -1, -1 ];
+    keno.poll = [-1, -1];
     keno.proxy = getrand(keno.proxies.length);
     window.setTimeout(keno_init, 1000 + (1000 - new Date().getMilliseconds()));
 }
