@@ -7,6 +7,7 @@ var keno = {
         },
         numbers: 80,
         draws: 20,
+        uprate: 100,
         proxies: ["https://corsproxy.io/?"],
     },
     data: {
@@ -276,7 +277,7 @@ function keno_init() {
 
     keno.data.poll = [0, 0];
     keno.data.refresh = keno_timer();
-    keno.data.interval = window.setInterval(keno_update, 1000);
+    keno.data.interval = window.setInterval(keno_update, keno.config.uprate);
 
     console.log(
         "keno init: ",
@@ -291,7 +292,7 @@ function keno_start() {
 
     keno.data.poll = [-1, -1];
     keno.data.proxy = getrand(keno.config.proxies.length);
-    window.setTimeout(keno_init, 1000 + (1000 - new Date().getMilliseconds()));
+    window.setTimeout(keno_init, 1000 - (new Date()).getMilliseconds());
 }
 
 $(document).ready(function ($) {
