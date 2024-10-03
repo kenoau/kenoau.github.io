@@ -192,42 +192,18 @@ function keno_fetch() {
     });
 }
 
-/*
-DOMRect {
-    x: 51.91667175292969,
-    y: 9.283340454101562,
-    width: 825.1666259765625,
-    height: 324,
-    top: 9.283340454101562,
-    right: 877.0832977294922,
-    bottom: 333.28334045410156,
-    left: 51.91667175292969
-}
-DOMRect {
-    x: 218.5500030517578,
-    y: 226.28334045410156,
-    width: 80.31666564941406,
-    height: 33,
-    top: 226.28334045410156,
-    right: 298.8666687011719,
-    bottom: 259.28334045410156,
-    left: 218.5500030517578
-}
-*/
 function keno_call(call, rect, hide) {
     var c = getelem("keno-call");
 
-    if (hide) c.style.transition = hide ? "none" : "all 1s";
+    c.style.transition = hide ? "none" : "all 1s";
 
     c.style.left = rect.left + "px";
-    c.style.right = rect.right + "px";
+    c.style.top = rect.top + "px";
     c.style.width = rect.width + "px";
     c.style.height = rect.height + "px";
 
     c.hidden = hide;
     c.innerHTML = call;
-
-    console.log("keno call: ", call, hide, rect);
 }
 
 function keno_update() {
