@@ -1,12 +1,8 @@
 <div class="row footer">
+    <p><b>{{ site.title }} <span class="fas fa-copyright" aria-hidden="true"></span> {{ site.data.information.copyright }} </b></p>
     <nav class="navbar">
         <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                {% for navitem in site.data.navigation %}<li class="navitem"><a href="{{ navitem.url }}" title="{{ navitem.title }}"><span class="{{ navitem.class }} fa-fw" aria-hidden="true"></span><div class="navtext">{{ navitem.title }}</div></a></li>{% endfor %}
-            </ul>
+            {% for navitem in site.data.navigation %}[<a href="{{ navitem.url }}" title="{{ navitem.title }}"><span class="{{ navitem.class }} fa-fw" aria-hidden="true"></span><div class="navtext">{{ navitem.title }}</div></a>]{% endfor %}
         </div>
     </nav>
-    <p><b>{{ site.title }}<span class="fas fa-trademark" data-fa-transform="shrink-6 up-4" aria-hidden="true"></span> <span class="fas fa-copyright" aria-hidden="true"></span> {{ site.data.information.copyright }} </b></p>
-    <p>All content is subject to the <a href="/license">License</a> and <a href="/trademark">Trademark Policy</a></p>
-    <p>Need help? Try the <a href="/docs">Documentation</a></p>
 </div>

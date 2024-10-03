@@ -26,3 +26,12 @@ a:hover, a:active {
     margin: 0;
     padding: 0;
 }
+
+.fa-fw, .navtext {
+    display: inline;
+}
+
+.footer {
+    width: 100%;
+    text-align: center;
+}
