@@ -30,7 +30,7 @@ function keno_proxy(url) {
 function keno_api() {
     return keno_proxy(
         "https://api-info-" +
-            keno.data.data.jurisdiction +
+            keno.data.jurisdiction +
             ".keno.com.au/v2/games/kds?jurisdiction=" +
             keno.data.jurisdiction
     );
@@ -236,8 +236,8 @@ function keno_update() {
         if (next < 0) next = 0;
     }
 
-    if (since <= keno.app.calls.length)
-        draws = Math.floor(since / keno.app.calls.delay);
+    if (since <= keno.config.calls.length)
+        draws = Math.floor(since / keno.config.calls.delay);
     else draws = keno.config.draws;
 
     getelem("keno-draws-value").innerHTML = draws;
