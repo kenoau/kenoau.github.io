@@ -29,15 +29,8 @@
 }
 
 #keno-call {
-    position: fixed;
-    display: table-cell;
+    position: absolute;
     background-color: rgb(0, 0, 0);
-    border: 2px solid rgb(32, 32, 32);
-    border-radius: 8px;
-    vertical-align: middle;
-}
-
-.keno-transition {
     transition: all 1s;
 }
 
