@@ -131,8 +131,6 @@ function keno_timer(secs = 0) {
 
     d = new Date(r);
 
-    console.log("keno timer: ", secs, d.getTime(), q.getTime());
-
     return d;
 }
 
@@ -159,7 +157,7 @@ function keno_fetch() {
     var head = {},
         uri = keno_api();
 
-    console.log("script get: ", uri, head);
+    console.log("fetch: ", uri, head);
 
     $.ajax({
         method: "GET",
@@ -170,7 +168,7 @@ function keno_fetch() {
             "*": "application/vnd.tabcorp.keno.kds+json; charset=utf-8; encoding=json",
         },
         success: function (data, status, req) {
-            console.log("script success: ", uri, status, data);
+            console.log("success: ", uri, status, data);
 
             keno.data.poll[1] = parseInt(
                 req.getResponseHeader("KDS-Next-Poll")
@@ -180,7 +178,7 @@ function keno_fetch() {
             keno.json = data;
         },
         error: function (hdrs, status, err) {
-            console.log("script failure: ", uri, status, err);
+            console.log("failure: ", uri, status, err);
 
             keno.data.poll = [10, -1]; // delay the timer
             keno.data.refresh = keno_timer(keno.data.poll[0]);
