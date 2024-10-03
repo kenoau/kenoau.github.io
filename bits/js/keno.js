@@ -3,7 +3,7 @@ var keno = {
         length: 160000,
         calls: {
             length: 50000,
-            delay: 2500
+            delay: 2500,
         },
         numbers: 80,
         split: 40,
@@ -197,8 +197,8 @@ function keno_call(call, rect, hide) {
 
     c.style.left = rect.left + "px";
     c.style.top = rect.top + "px";
-    c.style.width = (rect.width - 4) + "px";
-    c.style.height = (rect.height - 4) + "px";
+    c.style.width = rect.width - 4 + "px";
+    c.style.height = rect.height - 4 + "px";
 
     c.innerHTML = call;
 }
@@ -246,7 +246,10 @@ function keno_update() {
     var finished = false;
 
     if (since <= keno.config.calls.length + keno.config.calls.delay) {
-        draws = Math.floor(since / keno.config.calls.delay);
+        draws =
+            since >= keno.config.calls.delay
+                ? Math.floor(since / keno.config.calls.delay)
+                : 0;
     } else {
         draws = keno.config.draws;
         finished = true;
@@ -269,16 +272,16 @@ function keno_update() {
             var num = keno.json.current.draw[i];
 
             if (i < draws) {
-                if (i < draws - 1)
+                if (finished || i < draws - 1) {
                     getelem("keno-n-" + num).innerHTML = num;
+                    if (i == keno.config.draws - 1) last = num;
+                }
 
                 if (num <= keno.config.split) heads += 1;
                 else tails += 1;
 
                 if (i == draws - 1) call = num;
             }
-
-            if (i == keno.config.draws - 1) last = num;
         }
     }
 
