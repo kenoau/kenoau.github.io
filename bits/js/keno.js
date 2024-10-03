@@ -3,7 +3,7 @@ var keno = {
         length: 160000,
         calls: {
             length: 60000,
-            delay: 3000,
+            delay: 2500,
             trans: 1000,
         },
         numbers: 80,
@@ -252,8 +252,8 @@ function keno_update() {
 
     var finished = false;
 
-    if (since <= keno.config.calls.length) {
-        draws = Math.floor(since / keno.config.calls.delay);
+    if (since <= keno.config.calls.length + keno.config.calls.delay) {
+        draws = Math.ceil(since / keno.config.calls.delay);
     } else {
         draws = keno.config.draws;
         finished = true;
@@ -299,7 +299,7 @@ function keno_update() {
     getelem("keno-llast-value").innerHTML = last >= 0 ? last : "&nbsp;";
 
     if (finished || call < 0 || call != keno.data.call)
-        keno_call("&nbsp;", getelem("keno-body").getBoundingClientRect(), true);
+        keno_call("&nbsp;", getelem("keno-t-draws").getBoundingClientRect(), true);
 
     if (finished != true && call >= 0 && call != keno.data.call) {
         keno_call(
