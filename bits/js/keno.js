@@ -2,9 +2,8 @@ var keno = {
     config: {
         length: 160000,
         calls: {
-            length: 60000,
-            delay: 3000,
-            trans: 1000,
+            length: 50000,
+            delay: 2500
         },
         numbers: 80,
         split: 40,
