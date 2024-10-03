@@ -1,30 +1,38 @@
 var keno = {
-    app: {
-        length: 160000
+    config: {
+        length: 160000,
+        calls: {
+            length: 80000,
+            delay: 4000
+        },
+        numbers: 80,
+        draws: 20,
+        proxies: ["https://corsproxy.io/?"],
     },
-    closed: null,
-    data: {},
-    interval: null,
-    jurisdiction: "qld",
-    num: -1,
-    poll: [0, 0],
-    proxies: ["https://corsproxy.io/?"],
-    proxy: -1,
-    refresh: null,
+    data: {
+        closed: null,
+        json: {},
+        interval: null,
+        jurisdiction: "qld",
+        num: -1,
+        poll: [0, 0],
+        proxy: -1,
+        refresh: null,
+    },
 };
 
 function keno_proxy(url) {
-    keno.proxy += 1;
-    if (keno.proxy >= keno.proxies.length) keno.proxy = 0;
-    return keno.proxies[keno.proxy] + encodeURIComponent(url);
+    keno.data.proxy += 1;
+    if (keno.data.proxy >= keno.config.proxies.length) keno.data.proxy = 0;
+    return keno.config.proxies[keno.proxy] + encodeURIComponent(url);
 }
 
 function keno_api() {
     return keno_proxy(
         "https://api-info-" +
-            keno.jurisdiction +
+            keno.data.data.jurisdiction +
             ".keno.com.au/v2/games/kds?jurisdiction=" +
-            keno.jurisdiction
+            keno.data.jurisdiction
     );
 }
 
@@ -147,11 +155,11 @@ function keno_build(data) {
     }
 
     if (data != null && data.current != null) {
-        keno.data = data; // save for later
+        keno.data.json = data; // save for later
 
         if (data.current.closed != null)
-            keno.closed = new Date(Date.parse(data.current.closed));
-        else keno.closed = null;
+            keno.data.closed = new Date(Date.parse(data.current.closed));
+        else keno.data.closed = null;
 
         getelem("keno-game-value").innerHTML = data.current["game-number"];
 
@@ -168,7 +176,7 @@ function keno_build(data) {
         if (data.current.draw != null) {
             for (var i = 0; i < data.current.draw.length; i++) {
                 getelem("keno-n-" + data.current.draw[i]).innerHTML =
-                    "<b>" + data.current.draw[i] + "</b>";
+                    data.current.draw[i];
 
                 if (i == data.current.draw.length - 1)
                     getelem("keno-llast-value").innerHTML =
@@ -179,7 +187,7 @@ function keno_build(data) {
 }
 
 function keno_fetch() {
-    keno.poll = [-1, 0]; // pause refreshes
+    keno.data.poll = [-1, 0]; // pause refreshes
 
     var head = {},
         uri = keno_api();
@@ -197,17 +205,19 @@ function keno_fetch() {
         success: function (data, status, req) {
             console.log("script success: ", uri, status, data);
 
-            keno.poll[1] = parseInt(req.getResponseHeader("KDS-Next-Poll"));
-            keno.poll[0] = keno.poll[1] + 1;
-            keno.refresh = keno_timer(keno.poll[0]);
+            keno.data.poll[1] = parseInt(
+                req.getResponseHeader("KDS-Next-Poll")
+            );
+            keno.data.poll[0] = keno.data.poll[1] + 1;
+            keno.data.refresh = keno_timer(keno.data.poll[0]);
 
             keno_build(data);
         },
         error: function (hdrs, status, err) {
             console.log("script failure: ", uri, status, err);
 
-            keno.poll = [10, -1]; // delay the timer
-            keno.refresh = keno_timer(keno.poll[0]);
+            keno.data.poll = [10, -1]; // delay the timer
+            keno.data.refresh = keno_timer(keno.data.poll[0]);
         },
     });
 }
@@ -215,47 +225,55 @@ function keno_fetch() {
 function keno_update() {
     var cur = new Date();
 
-    if (keno.poll[0] >= 0 && cur >= keno.refresh) keno_fetch();
+    if (keno.data.poll[0] >= 0 && cur >= keno.data.refresh) keno_fetch();
 
-    var next = 0;
-    if (keno.closed != null) {
-        next = Math.floor((keno.app.length - (cur.getTime() - keno.closed.getTime())) / 1000);
+    var since = 0, next = 0, draws = 0;
+    if (keno.data.closed != null) {
+        since = cur.getTime() - keno.data.closed.getTime();
+        if (since < 0) since = keno.config.length;
+        
+        next = Math.floor((keno.config.length - since) / 1000);
         if (next < 0) next = 0;
     }
 
+    if (since <= keno.app.calls.length)
+        draws = Math.floor(since / keno.app.calls.delay);
+    else draws = keno.config.draws;
+
+    getelem("keno-draws-value").innerHTML = draws;
     getelem("keno-timer-value").innerHTML = maketime(next);
 }
 
 function keno_init() {
-    if (keno.interval != null) window.clearInterval(keno.interval);
+    if (keno.data.interval != null) window.clearInterval(keno.data.interval);
 
     var url = window.location.hash,
         idx = url.indexOf("#");
 
     if (idx >= 0) {
         var str = url.substring(idx + 1);
-        keno.num = parseInt(str);
+        keno.data.num = parseInt(str);
     } else {
-        keno.num = -1;
+        keno.data.num = -1;
     }
 
-    keno.poll = [0, 0];
-    keno.refresh = keno_timer();
-    keno.interval = window.setInterval(keno_update, 1000);
+    keno.data.poll = [0, 0];
+    keno.data.refresh = keno_timer();
+    keno.data.interval = window.setInterval(keno_update, 1000);
 
     console.log(
         "keno init: ",
-        keno.num,
-        keno.refresh.getTime(),
+        keno.data.num,
+        keno.data.refresh.getTime(),
         new Date().getTime()
     );
 }
 
 function keno_start() {
-    if (keno.interval != null) window.clearInterval(keno.interval);
+    if (keno.data.interval != null) window.clearInterval(keno.data.interval);
 
-    keno.poll = [-1, -1];
-    keno.proxy = getrand(keno.proxies.length);
+    keno.data.poll = [-1, -1];
+    keno.data.proxy = getrand(keno.config.proxies.length);
     window.setTimeout(keno_init, 1000 + (1000 - new Date().getMilliseconds()));
 }
 
