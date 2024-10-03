@@ -177,8 +177,6 @@ function keno_fetch() {
             );
             keno.data.poll[0] = keno.data.poll[1] + 1;
             keno.data.refresh = keno_timer(keno.data.poll[0]);
-            keno.data.call = -1;
-
             keno.json = data;
         },
         error: function (hdrs, status, err) {
@@ -197,6 +195,8 @@ function keno_call(call, rect, hide) {
 
     c.style.transition = hide ? "none" : "all 1s";
     c.style.backgroundColor = hide ? "transparent" : "rgb(0, 0, 0)";
+    c.style.color = hide ? "transparent" : "rgb(255, 255, 255)";
+    c.style.border = hide ? "none" : "2px solid rgb(255, 255, 255)";
 
     c.style.left = rect.left + "px";
     c.style.top = rect.top + "px";
