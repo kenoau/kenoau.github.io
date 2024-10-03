@@ -200,8 +200,14 @@ function keno_call(call, rect, hide) {
 
     c.style.left = rect.left + "px";
     c.style.top = rect.top + "px";
-    c.style.width = rect.width + "px";
-    c.style.height = rect.height + "px";
+    
+    var width = rect.width, height = rect.height;
+    if(hide != true) {
+        width -= 4;
+        height -= 4;
+    }
+    c.style.width = width + "px";
+    c.style.height = height + "px";
 
     c.innerHTML = call;
 }
