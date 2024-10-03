@@ -197,7 +197,7 @@ function keno_update() {
         getelem("keno-n-" + num).innerHTML = "&nbsp;";
     }
 
-    if (keno.json == null) {
+    if (keno.json == null || keno.json.current == null) {
         getelem("keno-draws-value").innerHTML = "&nbsp;";
         getelem("keno-heads-value").innerHTML = "&nbsp;";
         getelem("keno-tails-value").innerHTML = "&nbsp;";
@@ -250,9 +250,14 @@ function keno_update() {
         }
     }
 
+    var bonus = "&nbsp;";
+    if (keno.json.current.variants != null) {
+        bonus = keno.json.current.variants.bonus || "&nbsp;";
+        if (bonus == "reg") bonus = "x1";
+    }
     getelem("keno-heads-value").innerHTML = heads;
     getelem("keno-tails-value").innerHTML = tails;
-    getelem("keno-bonus-value").innerHTML = keno.json.current.variants.bonus != "reg" ? keno.json.current.variants.bonus : "x1";
+    getelem("keno-bonus-value").innerHTML = bonus;
     getelem("keno-llast-value").innerHTML = last >= 0 ? last : "&nbsp;";
 }
 
