@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head>
-        <title>
-            {{ site.title | default: site.github.repository_name }}: {{ page.title | default: page.path }}
-        </title>
+        <title>{{ site.title | default: site.github.repository_name }}: {{ page.title | default: page.path }}</title>
+        {% include head.html %}
         <link rel="stylesheet" type="text/css" href="/bits/css/keno.css?v={{ site.github.build_revision }}" />
         <script type="text/javascript" src="/bits/js/keno.js?v={{ site.github.build_revision }}"></script>
     </head>
     <body>
         <div class="container pagecontent">
-            {{ content }} {% include footer.html %}
+            <div class="main pagecontainer">
+                {{ content }}
+            </div>
+            {% include footer.html %}
         </div>
     </body>
 </html>

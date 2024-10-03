@@ -1,10 +1,8 @@
 <div class="row footer">
     <nav class="navbar">
         <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                {% for navitem in site.data.navigation %}
-                    <li class="navitem"><a href="{{ navitem.url }}" title="{{ navitem.title }}"><span class="{{ navitem.class }} fa-fw" aria-hidden="true"></span><div class="navtext">{{ navitem.title }}</div></a></li>
-                {% endfor %}
+            <ul class="nav navbar-nav">
+                {% for navitem in site.data.navigation %}<li class="navitem"><a href="{{ navitem.url }}" title="{{ navitem.title }}"><span class="{{ navitem.class }} fa-fw" aria-hidden="true"></span><div class="navtext">{{ navitem.title }}</div></a></li>{% endfor %}
             </ul>
         </div>
     </nav>

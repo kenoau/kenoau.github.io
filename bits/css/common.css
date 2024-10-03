@@ -21,7 +21,7 @@ a:hover, a:active {
     text-shadow: -1px -1px 4px rgb(240, 240, 255);
 }
 
-.main {
+.main, .pagecontent, .pagecontainer {
     width: 100%;
     margin: 0;
     padding: 1%;
