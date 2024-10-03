@@ -1,4 +1,7 @@
 var keno = {
+    app: {
+        length: 160000
+    },
     closed: null,
     data: {},
     interval: null,
@@ -210,8 +213,8 @@ function keno_update() {
     if (keno.poll[0] >= 0 && cur >= keno.refresh) keno_fetch();
 
     var next = 0;
-    if(keno.closed != null) {
-        next = Math.floor((cur.getTime() - keno.closed.getTime()) / 1000);
+    if (keno.closed != null) {
+        next = Math.floor((keno.app.length - (cur.getTime() - keno.closed.getTime())) / 1000);
         if (next < 0) next = 0;
     }
 
