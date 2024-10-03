@@ -6,6 +6,7 @@ var keno = {
             delay: 3000,
         },
         numbers: 80,
+        split: 40,
         draws: 20,
         uprate: 100,
         proxies: ["https://corsproxy.io/?"],
@@ -243,7 +244,7 @@ function keno_update() {
 
             if (i < draws) {
                 getelem("keno-n-" + num).innerHTML = num;
-                if (num <= keno.config.draws / 2) heads += 1;
+                if (num <= keno.config.split) heads += 1;
                 else tails += 1;
             }
 
@@ -292,6 +293,7 @@ function keno_start() {
 
     keno.data.poll = [-1, -1];
     keno.data.proxy = getrand(keno.config.proxies.length);
+    keno.json = null;
     window.setTimeout(keno_init, 1000 - (new Date()).getMilliseconds());
 }
 
