@@ -277,7 +277,8 @@ function keno_update() {
             var num = keno.json.current.draw[i];
 
             if (i < draws) {
-                getelem("keno-n-" + num).innerHTML = num;
+                if (i < draws - 1)
+                    getelem("keno-n-" + num).innerHTML = num;
 
                 if (num <= keno.config.split) heads += 1;
                 else tails += 1;
