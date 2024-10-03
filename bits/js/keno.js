@@ -161,7 +161,7 @@ function keno_build(data) {
             keno.data.closed = new Date(Date.parse(data.current.closed));
         else keno.data.closed = null;
 
-        getelem("keno-game-value").innerHTML = data.current["game-number"];
+        getelem("keno-game-value").innerHTML = data.current["game-number"].zeropad(3);
 
         if (data.current.variants != null) {
             getelem("keno-heads-value").innerHTML =
