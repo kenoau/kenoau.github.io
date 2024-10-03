@@ -1,13 +1,13 @@
 var keno = {
-    jurisdiction: "qld",
-    poll: [0, 0],
-    refresh: null,
-    interval: null,
     closed: null,
-    num: -1,
-    proxy: -1,
-    proxies: ["https://corsproxy.io/?"],
     data: {},
+    interval: null,
+    jurisdiction: "qld",
+    num: -1,
+    poll: [0, 0],
+    proxies: ["https://corsproxy.io/?"],
+    proxy: -1,
+    refresh: null,
 };
 
 function keno_proxy(url) {
@@ -142,7 +142,7 @@ function keno_build(data) {
         keno.data = data; // save for later
 
         if (data.current.closed != null)
-            keno.closed = Date.parse(data.current.closed);
+            keno.closed = new Date(Date.parse(data.current.closed));
         else keno.closed = null;
 
         getelem("keno-game-value").innerHTML = data.current["game-number"];
