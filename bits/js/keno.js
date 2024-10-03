@@ -209,12 +209,11 @@ function keno_update() {
 
     if (keno.poll[0] >= 0 && cur >= keno.refresh) keno_fetch();
 
-    var next =
-        keno.closed != null
-            ? Math.floor((cur.getTime() - keno.closed.getTime()) / 1000)
-            : 0;
-
-    if (next < 0) next = 0;
+    var next = 0;
+    if(keno.closed != null) {
+        next = Math.floor((cur.getTime() - keno.closed.getTime()) / 1000);
+        if (next < 0) next = 0;
+    }
 
     getelem("keno-timer-value").innerHTML = next;
 }
