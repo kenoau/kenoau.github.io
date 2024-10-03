@@ -63,6 +63,11 @@ Array.prototype.extend = function (data) {
     }, this);
 };
 
+function maketime(secs) {
+    var r = secs % 60;
+    return Math.floor(secs / 60) + ":" + r.zeropad();
+}
+
 function makecookie(name, value, exdays) {
     var exdate = new Date();
     exdate.setDate(exdate.getDate() + exdays);
@@ -218,7 +223,7 @@ function keno_update() {
         if (next < 0) next = 0;
     }
 
-    getelem("keno-timer-value").innerHTML = next;
+    getelem("keno-timer-value").innerHTML = maketime(next);
 }
 
 function keno_init() {
