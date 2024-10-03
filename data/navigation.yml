@@ -7,3 +7,9 @@
 - url: /issues
   title: "Issue Tracker"
   class: "fas fa-tasks"
+- url: /github
+  title: "GitHub"
+  class: "fab fa-github"
+- url: /donate
+  title: "Donate"
+  class: "fab fa-paypal"

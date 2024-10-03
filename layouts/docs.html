@@ -2,11 +2,9 @@
 <html lang="en" dir="ltr">
     <head>
         <title>{{ site.title | default: site.github.repository_name }}: Documentation - {{ page.title | default: page.path }}</title>
-        {% assign cssclass = 'default' %}
         {% include head.html %}
     </head>
     <body>
-        {% include nav.html %}
         <div class="container pagecontent">
             <div class="sidebar pagesidebar">
                 <a href="https://github.com/kenoau/docs/edit/master/{{ page.origfile }}" target="_blank">Edit on GitHub</a>
