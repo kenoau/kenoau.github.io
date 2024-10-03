@@ -319,17 +319,19 @@ function keno_update() {
 
     if (finished || call < 0) {
         keno_call("&nbsp;", getelem("keno-body").getBoundingClientRect(), true);
+        keno.data.call = -1;
     } else if (call != keno.data.call) {
         keno_call(call, getelem("keno-body").getBoundingClientRect(), false);
+        keno.data.call = call;
     } else {
         keno_call(
             call,
             getelem("keno-n-" + call).getBoundingClientRect(),
             false
         );
+        keno.data.call = call;
     }
 
-    keno.data.call = call;
     keno.data.game = game;
 }
 
