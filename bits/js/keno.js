@@ -182,7 +182,7 @@ function keno_fetch() {
             console.log("script success: ", uri, status, data);
 
             keno.poll[1] = parseInt(req.getResponseHeader("KDS-Next-Poll"))
-            keno.poll[0] = keno.poll[1] + 5;
+            keno.poll[0] = keno.poll[1] + 1;
             keno.refresh = keno_timer(keno.poll[0]);
 
             keno_build(data);
@@ -205,7 +205,7 @@ function keno_update() {
 
     if (next < 0) next = 0;
 
-    getelem("keno-timer-value").innerHTML = next + '/' + keno.poll[0] + '/' + keno.poll[1];
+    getelem("keno-timer-value").innerHTML = next;
 }
 
 function keno_init() {
