@@ -24,7 +24,7 @@ var keno = {
 function keno_proxy(url) {
     keno.data.proxy += 1;
     if (keno.data.proxy >= keno.config.proxies.length) keno.data.proxy = 0;
-    return keno.config.proxies[keno.proxy] + encodeURIComponent(url);
+    return keno.config.proxies[keno.data.proxy] + encodeURIComponent(url);
 }
 
 function keno_api() {
