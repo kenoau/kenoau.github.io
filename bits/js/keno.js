@@ -198,9 +198,10 @@ function keno_call(call, rect, hide) {
 
     c.style.left = rect.left + "px";
     c.style.top = rect.top + "px";
-    
-    var width = rect.width, height = rect.height;
-    if(hide != true) {
+
+    var width = rect.width,
+        height = rect.height;
+    if (hide != true) {
         width -= 4;
         height -= 4;
     }
@@ -299,7 +300,11 @@ function keno_update() {
     getelem("keno-llast-value").innerHTML = last >= 0 ? last : "&nbsp;";
 
     if (finished || call < 0 || call != keno.data.call)
-        keno_call("&nbsp;", getelem("keno-t-draws").getBoundingClientRect(), true);
+        keno_call(
+            "&nbsp;",
+            getelem("keno-t-draws").getBoundingClientRect(),
+            true
+        );
 
     if (finished != true && call >= 0 && call != keno.data.call) {
         keno_call(
