@@ -216,12 +216,13 @@ DOMRect {
 */
 function keno_call(call, rect, hide) {
     var c = getelem("keno-call");
-    if (c.hidden == hide) return;
+
+    if(hide) c.style.transition = hide ? "none" : "all 1s";
 
     c.style.left = rect.left + "px";
     c.style.right = rect.right + "px";
     c.style.width = rect.width + "px";
-    c.style.bottom = rect.height + "px";
+    c.style.height = rect.height + "px";
 
     c.hidden = hide;
     c.innerHTML = call;
