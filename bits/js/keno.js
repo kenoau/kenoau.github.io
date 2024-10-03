@@ -2,8 +2,8 @@ var keno = {
     config: {
         length: 160000,
         calls: {
-            length: 80000,
-            delay: 4000
+            length: 60000,
+            delay: 3000,
         },
         numbers: 80,
         draws: 20,
@@ -11,7 +11,6 @@ var keno = {
     },
     data: {
         closed: null,
-        json: {},
         interval: null,
         jurisdiction: "qld",
         num: -1,
@@ -19,6 +18,7 @@ var keno = {
         proxy: -1,
         refresh: null,
     },
+    json: null,
 };
 
 function keno_proxy(url) {
@@ -148,44 +148,6 @@ function keno_date(data) {
     );
 }
 
-function keno_build(data) {
-    for (var i = 1; i <= 80; i++) {
-        var elem = getelem("keno-n-" + i);
-        if (elem != null) elem.innerHTML = "&nbsp;";
-    }
-
-    if (data != null && data.current != null) {
-        keno.data.json = data; // save for later
-
-        if (data.current.closed != null)
-            keno.data.closed = new Date(Date.parse(data.current.closed));
-        else keno.data.closed = null;
-
-        getelem("keno-game-value").innerHTML = data.current["game-number"].zeropad(3);
-
-        if (data.current.variants != null) {
-            getelem("keno-heads-value").innerHTML =
-                data.current.variants["heads-or-tails"].heads;
-
-            getelem("keno-tails-value").innerHTML =
-                data.current.variants["heads-or-tails"].tails;
-
-            getelem("keno-bonus-value").innerHTML = data.current.variants.bonus;
-        }
-
-        if (data.current.draw != null) {
-            for (var i = 0; i < data.current.draw.length; i++) {
-                getelem("keno-n-" + data.current.draw[i]).innerHTML =
-                    data.current.draw[i];
-
-                if (i == data.current.draw.length - 1)
-                    getelem("keno-llast-value").innerHTML =
-                        data.current.draw[i];
-            }
-        }
-    }
-}
-
 function keno_fetch() {
     keno.data.poll = [-1, 0]; // pause refreshes
 
@@ -211,13 +173,15 @@ function keno_fetch() {
             keno.data.poll[0] = keno.data.poll[1] + 1;
             keno.data.refresh = keno_timer(keno.data.poll[0]);
 
-            keno_build(data);
+            keno.data.json = data;
         },
         error: function (hdrs, status, err) {
             console.log("script failure: ", uri, status, err);
 
             keno.data.poll = [10, -1]; // delay the timer
             keno.data.refresh = keno_timer(keno.data.poll[0]);
+
+            keno.data.json = null;
         },
     });
 }
@@ -227,11 +191,13 @@ function keno_update() {
 
     if (keno.data.poll[0] >= 0 && cur >= keno.data.refresh) keno_fetch();
 
-    var since = 0, next = 0, draws = 0;
+    var since = 0,
+        next = 0,
+        draws = 0;
     if (keno.data.closed != null) {
         since = cur.getTime() - keno.data.closed.getTime();
         if (since < 0) since = keno.config.length;
-        
+
         next = Math.floor((keno.config.length - since) / 1000);
         if (next < 0) next = 0;
     }
@@ -242,6 +208,51 @@ function keno_update() {
 
     getelem("keno-draws-value").innerHTML = draws;
     getelem("keno-timer-value").innerHTML = maketime(next);
+
+    if (data.current.closed != null)
+        keno.data.closed = new Date(Date.parse(data.current.closed));
+    else keno.data.closed = null;
+
+    getelem("keno-game-value").innerHTML =
+        keno.json.current["game-number"].zeropad(3);
+
+    var heads = 0,
+        tails = 0,
+        last = -1;
+
+    for (var i = 0; i < keno.config.numbers; i++) {
+        var num = i + 1;
+        getelem("keno-n-" + i).innerHTML = "&nbsp;";
+    }
+
+    if (
+        keno.json != null &&
+        keno.json.current != null &&
+        keno.json.current.draw != null
+    ) {
+        for (var i = 0; i < keno.json.current.draws.length; i++) {
+            var num = keno.json.current.draw[i];
+
+            if (i < draws) {
+                getelem("keno-n-" + num).innerHTML = num;
+                if (num <= keno.config.draws / 2) heads += 1;
+                else tails += 1;
+            }
+
+            if (i == keno.config.draws - 1) last = num;
+        }
+
+        getelem("keno-heads-value").innerHTML = heads;
+        getelem("keno-tails-value").innerHTML = tails;
+        getelem("keno-bonus-value").innerHTML =
+            keno.json.current.variants.bonus;
+    } else {
+        getelem("keno-heads-value").innerHTML = "&nbsp;";
+        getelem("keno-tails-value").innerHTML = "&nbsp;";
+        getelem("keno-bonus-value").innerHTML = "&nbsp;";
+    }
+
+    getelem("keno-llast-value").innerHTML = last >= 0 ? last : "&nbsp;";
 }
 
 function keno_init() {
