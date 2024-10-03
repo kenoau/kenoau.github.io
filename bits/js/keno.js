@@ -247,8 +247,7 @@ function keno_update() {
     var finished = false;
 
     if (since <= keno.config.calls.length + keno.config.calls.delay) {
-        draws = Math.ceil(since / keno.config.calls.delay);
-        if(draws > keno.config.draws) draws = keno.config.draws;
+        draws = Math.floor(since / keno.config.calls.delay);
     } else {
         draws = keno.config.draws;
         finished = true;
