@@ -196,13 +196,13 @@ function keno_call(call, rect, hide) {
     var c = getelem("keno-call");
 
     c.style.transition = hide ? "none" : "all 1s";
+    c.style.backgroundColor = hide ? "transparent" : "rgb(0, 0, 0)";
 
     c.style.left = rect.left + "px";
     c.style.top = rect.top + "px";
     c.style.width = rect.width + "px";
     c.style.height = rect.height + "px";
 
-    c.hidden = hide;
     c.innerHTML = call;
 }
 

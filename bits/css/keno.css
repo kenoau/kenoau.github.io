@@ -38,9 +38,12 @@
     position: fixed;
     display: inline;
     float: left;
-    background-color: rgb(0, 0, 0);
+    vertical-align: middle;
+    text-align: center;
+    background-color: transparent;
     border: none;
-    font-size: calc(1vw + 1vh);
+    font-size: calc(2vw + 2vh);
+    text-shadow: 0px 0px 2vw rgb(255, 255, 255, 0.5);
 }
 
 #keno-top {
