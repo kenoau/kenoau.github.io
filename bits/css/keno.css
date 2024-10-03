@@ -30,8 +30,11 @@
 
 #keno-call {
     position: fixed;
-    width: 6vw;
-    max-width: 100%;
+    display: table-cell;
+    background-color: rgb(0, 0, 0);
+    border: 2px solid rgb(32, 32, 32);
+    border-radius: 8px;
+    vertical-align: middle;
 }
 
 .keno-transition {

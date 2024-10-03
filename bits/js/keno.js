@@ -4,6 +4,7 @@ var keno = {
         calls: {
             length: 60000,
             delay: 3000,
+            trans: 1000,
         },
         numbers: 80,
         split: 40,
@@ -12,7 +13,9 @@ var keno = {
         proxies: ["https://corsproxy.io/?"],
     },
     data: {
+        call: -1,
         closed: null,
+        game: -1,
         interval: null,
         jurisdiction: "qld",
         num: -1,
@@ -174,6 +177,7 @@ function keno_fetch() {
             );
             keno.data.poll[0] = keno.data.poll[1] + 1;
             keno.data.refresh = keno_timer(keno.data.poll[0]);
+            keno.data.call = -1;
 
             keno.json = data;
         },
@@ -188,11 +192,22 @@ function keno_fetch() {
     });
 }
 
+function keno_call(call, rect, hide) {
+    var c = getelem("keno-call");
+    if (c.hidden == hide) return;
+
+    c.style.left = rect.left;
+    c.style.right = rect.right;
+    c.style.top = rect.top;
+    c.style.bottom = rect.bottom;
+    c.hidden = hide;
+    c.innerHTML = call;
+}
+
 function keno_update() {
     var cur = new Date();
 
-    if (keno.data.poll[0] >= 0 && cur >= keno.data.refresh)
-        keno_fetch();
+    if (keno.data.poll[0] >= 0 && cur >= keno.data.refresh) keno_fetch();
 
     for (var i = 0; i < keno.config.numbers; i++) {
         var num = i + 1;
@@ -207,7 +222,11 @@ function keno_update() {
         getelem("keno-llast-value").innerHTML = "&nbsp;";
         getelem("keno-timer-value").innerHTML = "&nbsp;";
         getelem("keno-game-value").innerHTML = "&nbsp;";
+
+        keno_call("&nbsp;", getelem("keno-body").getBoundingClientRect(), true);
+
         console.log("keno update: ", "no JSON data");
+
         return;
     }
 
@@ -225,18 +244,26 @@ function keno_update() {
         if (next < 0) next = 0;
     } else keno.data.closed = null;
 
-    if (since <= keno.config.calls.length)
+    var finished = false;
+
+    if (since <= keno.config.calls.length) {
         draws = Math.floor(since / keno.config.calls.delay);
-    else draws = keno.config.draws;
+    } else {
+        draws = keno.config.draws;
+        finished = true;
+    }
+
+    var game = keno.json.current["game-number"];
+    if (keno.data.game != game) finished = true;
 
     getelem("keno-draws-value").innerHTML = draws;
     getelem("keno-timer-value").innerHTML = maketime(next);
-    getelem("keno-game-value").innerHTML =
-        keno.json.current["game-number"].zeropad(3);
+    getelem("keno-game-value").innerHTML = game.zeropad(3);
 
     var heads = 0,
         tails = 0,
-        last = -1;
+        last = -1,
+        call = -1;
 
     if (keno.json.current.draw != null) {
         for (var i = 0; i < keno.json.current.draw.length; i++) {
@@ -244,8 +271,11 @@ function keno_update() {
 
             if (i < draws) {
                 getelem("keno-n-" + num).innerHTML = num;
+
                 if (num <= keno.config.split) heads += 1;
                 else tails += 1;
+
+                if (i == draws - 1) call = num;
             }
 
             if (i == keno.config.draws - 1) last = num;
@@ -261,6 +291,19 @@ function keno_update() {
     getelem("keno-tails-value").innerHTML = tails;
     getelem("keno-bonus-value").innerHTML = bonus;
     getelem("keno-llast-value").innerHTML = last >= 0 ? last : "&nbsp;";
+
+    if (finished || call < 0 || call != keno.data.call) {
+        keno_call("&nbsp;", getelem("keno-body").getBoundingClientRect(), true);
+    } else {
+        keno_call(
+            call,
+            getelem("keno-n-" + call).getBoundingClientRect(),
+            false
+        );
+    }
+
+    keno.data.call = call;
+    keno.data.game = game;
 }
 
 function keno_init() {
@@ -294,7 +337,7 @@ function keno_start() {
     keno.data.poll = [-1, -1];
     keno.data.proxy = getrand(keno.config.proxies.length);
     keno.json = null;
-    window.setTimeout(keno_init, 1000 - (new Date()).getMilliseconds());
+    window.setTimeout(keno_init, 1000 - new Date().getMilliseconds());
 }
 
 $(document).ready(function ($) {
