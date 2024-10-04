@@ -16,7 +16,7 @@ var keno = {
             call: -1,
             game: -1,
             state: -1,
-            bonus: "",
+            bonus: null,
         },
         closed: null,
         interval: null,
@@ -350,7 +350,12 @@ function keno_update() {
     if (keno.json.current.variants != null) {
         bonus = keno.json.current.variants.bonus;
         if (bonus == "reg") bonus = "x1";
-    }
+
+        if (bonus != keno.data.last.bonus) {
+            keno_sound("bonus" + bonus);
+            keno.data.last.bonus = bonus;
+        }
+}
 
     getelem("keno-heads-value").innerHTML = heads;
     getelem("keno-tails-value").innerHTML = tails;
@@ -366,9 +371,8 @@ function keno_update() {
 
     var state = 0;
     if (finished) {
-        if (draws <= 0) state = 1;
-        else if (draws == keno.config.draws) state = 2;
-    } else if (call >= 0 && call != keno.data.last.call) state = 3;
+        if (draws == keno.config.draws) state = 1;
+    } else if (call >= 0 && call != keno.data.last.call) state = 2;
 
     console.log(
         "state:",
@@ -381,17 +385,11 @@ function keno_update() {
     if (state != keno.data.last.state) {
         switch (state) {
             case 1:
-                if (bonus != keno.data.last.bonus) {
-                    keno_sound("bonus" + bonus);
-                    keno.data.last.bonus = bonus;
-                }
-                break;
-            case 2:
                 keno_sound(
                     heads > tails ? "heads" : heads < tails ? "tails" : "evens"
                 );
                 break;
-            case 3:
+            case 2:
                 keno_call(
                     call,
                     getelem("keno-n-" + call).getBoundingClientRect(),
