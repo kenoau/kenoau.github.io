@@ -262,10 +262,15 @@ function keno_update() {
         if (since < 0) since = keno.config.length;
 
         next = Math.floor((keno.config.length - since) / 1000);
-        if (next < 0) next = 0;
     } else keno.data.closed = null;
 
-    if (keno.data.poll[0] >= 0 && cur >= keno.data.refresh) keno_fetch(next);
+    if (next <= 0) {
+        next = 0;
+        keno.json = null;
+    }
+
+    if (keno.data.poll[0] >= 0 && cur >= keno.data.refresh)
+        keno_fetch(next);
 
     for (var i = 0; i < keno.config.numbers; i++) {
         var num = i + 1;
@@ -357,6 +362,8 @@ function keno_update() {
         if (draws < 0) state = 1;
         else if (draws == keno.config.draws) state = 2;
     } else if (call >= 0 && call != keno.data.last.call) state = 3;
+
+    console.log("state:", state, keno.data.last.state, call, keno.data.last.call);
 
     if (state != keno.data.last.state) {
         switch (state) {
