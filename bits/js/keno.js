@@ -21,6 +21,8 @@ var keno = {
         poll: [0, 0],
         proxy: -1,
         refresh: null,
+        sound: null,
+        sndbf: [],
     },
     json: null,
 };
@@ -181,8 +183,6 @@ function keno_fetch() {
 
             keno.data.poll = [10, -1]; // delay the timer
             keno.data.refresh = keno_timer(keno.data.poll[0]);
-
-            keno.json = null;
         },
     });
 }
@@ -203,10 +203,61 @@ function keno_call(call, rect, hide) {
     c.innerHTML = call;
 }
 
-function keno_update() {
-    var cur = new Date();
+function keno_sound(snd, nobuf) {
+    if (nobuf != true && keno.data.sound != null) {
+        keno.data.sndbf.push(snd);
+        return;
+    }
 
-    if (keno.data.poll[0] >= 0 && cur >= keno.data.refresh) keno_fetch();
+    if (typeof snd == "string") {
+        keno.data.sound = new Howl({
+            src: ["/bits/mp3/" + snd + ".mp3"],
+            onend: keno_sndbuf,
+        });
+    } else if (snd > 20) {
+        var mod = snd % 10,
+            par = snd - mod;
+        keno.data.sound = new Howl({
+            src: ["/bits/mp3/" + par.zeropad(3) + ".mp3"],
+            onend: keno_sndbuf,
+        });
+        if (mod > 0) keno.data.sndbf.push(mod);
+    } else {
+        keno.data.sound = new Howl({
+            src: ["/bits/mp3/" + snd.zeropad(3) + ".mp3"],
+            onend: keno_sndbuf,
+        });
+    }
+}
+
+function keno_sndbuf() {
+    if (keno.data.sndbf.length > 0) {
+        var snd = keno.data.sndbf.shift();
+        keno_sound(snd, true);
+    }
+}
+
+function keno_update() {
+    var cur = new Date(),
+        since = 0,
+        next = 0;
+
+    if (
+        keno.json != null &&
+        keno.json.current != -null &&
+        keno.json.current.closed != null
+    ) {
+        keno.data.closed = new Date(Date.parse(keno.json.current.closed));
+
+        since = cur.getTime() - keno.data.closed.getTime();
+        if (since < 0) since = keno.config.length;
+
+        next = Math.floor((keno.config.length - since) / 1000);
+        if (next < 0) next = 0;
+    } else keno.data.closed = null;
+
+    if (keno.data.poll[0] >= 0 && cur >= keno.data.refresh && next == 0)
+        keno_fetch();
 
     for (var i = 0; i < keno.config.numbers; i++) {
         var num = i + 1;
@@ -229,21 +280,8 @@ function keno_update() {
         return;
     }
 
-    var since = 0,
-        next = 0,
-        draws = 0;
-
-    if (keno.json.current.closed != null) {
-        keno.data.closed = new Date(Date.parse(keno.json.current.closed));
-
-        since = cur.getTime() - keno.data.closed.getTime();
-        if (since < 0) since = keno.config.length;
-
-        next = Math.floor((keno.config.length - since) / 1000);
-        if (next < 0) next = 0;
-    } else keno.data.closed = null;
-
-    var finished = false;
+    var draws = 0,
+        finished = false;
 
     if (since <= keno.config.calls.length + keno.config.calls.delay) {
         draws =
@@ -308,6 +346,7 @@ function keno_update() {
             getelem("keno-n-" + call).getBoundingClientRect(),
             false
         );
+        keno_sound(call);
     }
 
     keno.data.call = call;
