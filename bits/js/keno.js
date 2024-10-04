@@ -177,7 +177,7 @@ function keno_fetch(next = 0) {
             keno.data.poll[1] = parseInt(
                 req.getResponseHeader("KDS-Next-Poll")
             );
-            keno.data.poll[0] = Math.max(next, keno.data.poll[1] || 10);
+            keno.data.poll[0] = Math.max(3, Math.max(next, keno.data.poll[1] || 10));
             if (next > 0 && keno.data.poll[0] < next) keno.data.poll[0] = next;
 
             keno.data.refresh = keno_timer(keno.data.poll[0]);
@@ -269,6 +269,7 @@ function keno_update() {
         keno_fetch(
             keno.data.closed != null &&
                 keno.json.current != null &&
+                keno.json.current.variants != null &&
                 keno.json.current.variants.draw != null
                 ? next
                 : 1
