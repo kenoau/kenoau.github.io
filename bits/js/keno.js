@@ -16,6 +16,7 @@ var keno = {
             call: -1,
             game: -1,
             state: 0,
+            bonus: "",
         },
         closed: null,
         interval: null,
@@ -299,9 +300,12 @@ function keno_update() {
     }
 
     var game = keno.json.current["game-number"];
-    if (keno.data.last.game != game) finished = true;
+    if (keno.data.last.game != game) {
+        finished = true;
+        keno.data.last.bonus = null;
+    }
 
-    getelem("keno-draws-value").innerHTML = draws;
+    getelem("keno-draws-value").innerHTML = draws >= 0 ? draws : "..";
     getelem("keno-timer-value").innerHTML = maketime(next);
     getelem("keno-game-value").innerHTML = game.zeropad(3);
 
@@ -328,14 +332,15 @@ function keno_update() {
         }
     }
 
-    var bonus = "&nbsp;";
+    var bonus = null;
     if (keno.json.current.variants != null) {
-        bonus = keno.json.current.variants.bonus || "x1";
+        bonus = keno.json.current.variants.bonus;
         if (bonus == "reg") bonus = "x1";
     }
+
     getelem("keno-heads-value").innerHTML = heads;
     getelem("keno-tails-value").innerHTML = tails;
-    getelem("keno-bonus-value").innerHTML = bonus;
+    getelem("keno-bonus-value").innerHTML = bonus != null ? bonus : "&nbsp;";
     getelem("keno-llast-value").innerHTML = last >= 0 ? last : "&nbsp;";
 
     if (finished || call < 0 || call != keno.data.last.call)
@@ -345,43 +350,40 @@ function keno_update() {
             true
         );
 
+    var state = 0;
     if (finished) {
-        var state = 0;
-
         if (draws < 0) state = 1;
         else if (draws == keno.config.draws) state = 2;
-        else state = 3;
-
-        if (keno.data.last.state != state) {
-            switch (state) {
-                case 1:
-                    keno_sound("bonus" + bonus);
-                    break;
-                case 2:
-                    keno_sound(
-                        heads > tails
-                            ? "heads"
-                            : heads < tails
-                            ? "tails"
-                            : "evens"
-                    );
-                    break;
-            }
-
-            keno.data.last.state = state;
-        }
+        else state = 4;
     } else if (call >= 0 && call != keno.data.last.call) {
-        keno_call(
-            call,
-            getelem("keno-n-" + call).getBoundingClientRect(),
-            false
-        );
+        state = 3;
+    } else state = 4;
 
-        keno_sound(call.zeropad(3));
-
-        keno.data.last.state = 3;
+    if (state != keno.data.last.state) {
+        switch (state) {
+            case 1:
+                if (bonus != keno.data.last.bonus) {
+                    keno_sound("bonus" + bonus);
+                    keno.data.last.bonus = bonus;
+                }
+                break;
+            case 2:
+                keno_sound(
+                    heads > tails ? "heads" : heads < tails ? "tails" : "evens"
+                );
+                break;
+            case 4:
+                keno_call(
+                    call,
+                    getelem("keno-n-" + call).getBoundingClientRect(),
+                    false
+                );
+                keno_sound(call.zeropad(3));
+                break;
+        }
     }
 
+    keno.data.last.state = state;
     keno.data.last.call = call;
     keno.data.last.game = game;
 }
