@@ -367,7 +367,7 @@ function keno_toggle(start = false) {
     snd.innerHTML =
         '[ <a id="keno-sound-toggle" class="keno-center" title="' +
         tog +
-        ' Sound">' +
+        ' Sound" onclick="keno_toggle();">' +
         tog +
         " Sound</a> ]";
 
@@ -423,10 +423,4 @@ $(document).ready(function ($) {
 
 $(window).on("hashchange", function () {
     keno_start();
-});
-
-$(function () {
-    $("#keno-sound-toggle").click(function () {
-        keno_toggle();
-    });
 });
