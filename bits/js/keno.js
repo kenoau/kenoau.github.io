@@ -354,10 +354,9 @@ function keno_update() {
     if (finished) {
         if (draws < 0) state = 1;
         else if (draws == keno.config.draws) state = 2;
-        else state = 4;
     } else if (call >= 0 && call != keno.data.last.call) {
         state = 3;
-    } else state = 4;
+    }
 
     if (state != keno.data.last.state) {
         switch (state) {
