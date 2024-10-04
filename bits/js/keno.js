@@ -245,30 +245,9 @@ function keno_sndbuf() {
 }
 
 function keno_update() {
-    var cur = new Date(),
-        since = 0,
-        next = 0;
+    var cur = new Date();
 
-    if (
-        keno.json != null &&
-        keno.json.current != -null &&
-        keno.json.current.closed != null
-    ) {
-        keno.data.closed = new Date(Date.parse(keno.json.current.closed));
-
-        since = cur.getTime() - keno.data.closed.getTime();
-        if (since < 0) since = keno.config.length;
-
-        next = Math.floor((keno.config.length - since) / 1000);
-        if (next < 0) next = 0;
-    } else keno.data.closed = null;
-
-    if (
-        keno.data.poll[0] >= 0 &&
-        cur >= keno.data.refresh &&
-        (next == 0 || keno.json.draws == null || keno.json.draws.length == 0)
-    )
-        keno_fetch();
+    if (keno.data.poll[0] >= 0 && cur >= keno.data.refresh) keno_fetch();
 
     for (var i = 0; i < keno.config.numbers; i++) {
         var num = i + 1;
@@ -292,7 +271,23 @@ function keno_update() {
     }
 
     var draws = 0,
+        since = 0,
+        next = 0,
         finished = false;
+
+    if (
+        keno.json != null &&
+        keno.json.current != -null &&
+        keno.json.current.closed != null
+    ) {
+        keno.data.closed = new Date(Date.parse(keno.json.current.closed));
+
+        since = cur.getTime() - keno.data.closed.getTime();
+        if (since < 0) since = keno.config.length;
+
+        next = Math.floor((keno.config.length - since) / 1000);
+        if (next < 0) next = 0;
+    } else keno.data.closed = null;
 
     if (since <= keno.config.calls.length + keno.config.calls.delay) {
         draws =
@@ -391,22 +386,22 @@ function keno_init() {
 
 function keno_toggle(val) {
     var snd = getelem("keno-sound"),
-        tog = val ? "Disable" : "Enable",
-        img = val ? "volume-up" : "volume-mute";
+        tog = val ? "Disable" : "Enable";
 
-    snd.innerHTML = "[ ";
-    snd.innerHTML +=
-        '<a id="keno-sound-toggle" class="keno-center" title="' +
+    snd.innerHTML =
+        '[ <a id="keno-sound-toggle" class="keno-center" title="' +
         tog +
-        'Sound" onclick="keno_toggle();">';
-    snd.innerHTML +=
-        '<span class="fas fa-' + img + ' fa-fw" aria-hidden="true"></span>';
-    snd.innerHTML += '<div class="navtext">Toggle Sound</div>';
-    snd.innerHTML += "</a>";
-    snd.innerHTML += " ]";
+        'Sound">' +
+        tog +
+        "Sound</a> ]";
 
     keno.data.allow = val;
-    keno_sound("start");
+    if (keno.data.allow) keno_sound("start");
+    else {
+        if (keno.data.sound != null) keno.data.sound.stop();
+        keno.data.sound = null;
+        keno.data.sndbuf = [];
+    }
 }
 
 function keno_start() {
@@ -426,4 +421,10 @@ $(document).ready(function ($) {
 
 $(window).on("hashchange", function () {
     keno_start();
+});
+
+$(function () {
+    $("#keno-sound-toggle").click(function () {
+        keno_toggle();
+    });
 });

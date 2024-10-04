@@ -10,18 +10,23 @@ body {
     padding: 0;
 }
 
-a, a:link, a:visited {
+a,
+a:link,
+a:visited,
+.fakelink {
     color: rgb(128, 128, 255);
     text-decoration: none;
     text-shadow: -1px -1px 4px rgb(0, 0, 255);
 }
 
-a:hover, a:active {
+a:hover,
+a:active .fakelink:hover .fakelink:active {
     color: rgb(240, 240, 255);
     text-shadow: -1px -1px 4px rgb(240, 240, 255);
 }
 
-.main, .pagecontent {
+.main,
+.pagecontent {
     width: 100%;
     margin: 0;
     padding: 0;
@@ -33,7 +38,8 @@ a:hover, a:active {
     padding: 1vw;
 }
 
-.fa-fw, .navtext {
+.fa-fw,
+.navtext {
     display: inline;
 }
 
