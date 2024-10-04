@@ -170,20 +170,19 @@ function keno_fetch() {
             "*": "application/vnd.tabcorp.keno.kds+json; charset=utf-8; encoding=json",
         },
         success: function (data, status, req) {
-            console.log("success: ", uri, status, data);
-
             keno.data.poll[1] = parseInt(
                 req.getResponseHeader("KDS-Next-Poll")
             );
             keno.data.poll[0] = keno.data.poll[1] >= 1 ? keno.data.poll[1] : 1;
             keno.data.refresh = keno_timer(keno.data.poll[0]);
             keno.json = data;
+
+            console.log("success: ", keno.data.poll[0], uri, status, data);
         },
         error: function (hdrs, status, err) {
-            console.log("failure: ", uri, status, err);
-
             keno.data.poll = [10, -1]; // delay the timer
             keno.data.refresh = keno_timer(keno.data.poll[0]);
+            console.log("failure: ", keno.data.poll[0], uri, status, err);
         },
     });
 }
@@ -396,12 +395,13 @@ function keno_toggle(val) {
         "Sound</a> ]";
 
     keno.data.allow = val;
+    if (keno.data.sound != null) keno.data.sound.stop();
+    keno.data.sound = null;
+    keno.data.sndbuf = [];
+
     if (keno.data.allow) keno_sound("start");
-    else {
-        if (keno.data.sound != null) keno.data.sound.stop();
-        keno.data.sound = null;
-        keno.data.sndbuf = [];
-    }
+
+    console.log("sound:", keno.data.allow ? "enabled" : "disabled");
 }
 
 function keno_start() {
