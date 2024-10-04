@@ -23,6 +23,7 @@ var keno = {
         refresh: null,
         sound: null,
         sndbf: [],
+        allow: false,
     },
     json: null,
 };
@@ -204,6 +205,8 @@ function keno_call(call, rect, hide) {
 }
 
 function keno_sound(snd, nobuf) {
+    if (keno.data.allow != true) return;
+
     if (nobuf != true && keno.data.sound != null) {
         keno.data.sndbf.push(snd);
         return;
@@ -386,18 +389,40 @@ function keno_init() {
     );
 }
 
+function keno_toggle(val) {
+    var snd = getelem("keno-sound"),
+        tog = val ? "Disable" : "Enable",
+        img = val ? "volume-up" : "volume-mute";
+
+    snd.innerHTML = "[ ";
+    snd.innerHTML +=
+        '<a id="keno-sound-toggle" class="keno-center" title="' +
+        tog +
+        'Sound" onclick="keno_toggle();">';
+    snd.innerHTML +=
+        '<span class="fas fa-' + img + ' fa-fw" aria-hidden="true"></span>';
+    snd.innerHTML += '<div class="navtext">Toggle Sound</div>';
+    snd.innerHTML += "</a>";
+    snd.innerHTML += " ]";
+
+    keno.data.allow = val;
+}
+
 function keno_start() {
     if (keno.data.interval != null) window.clearInterval(keno.data.interval);
 
     keno.data.poll = [-1, -1];
     keno.data.proxy = getrand(keno.config.proxies.length);
     keno.json = null;
+
     window.setTimeout(keno_init, 1000 - new Date().getMilliseconds());
 }
 
 $(document).ready(function ($) {
+    keno_toggle(false);
     keno_start();
 });
+
 $(window).on("hashchange", function () {
     keno_start();
 });

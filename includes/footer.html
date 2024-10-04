@@ -1,8 +1,8 @@
 <div class="row footer">
-    <p><b>{{ site.title }} <span class="fas fa-copyright" aria-hidden="true"></span> {{ site.data.information.copyright }} </b></p>
     <nav class="navbar">
         <div id="navbar" class="navbar-collapse collapse">
             {% for navitem in site.data.navigation %} [ <a href="{{ navitem.url }}" title="{{ navitem.title }}"><span class="{{ navitem.class }} fa-fw" aria-hidden="true"></span><div class="navtext">{{ navitem.title }}</div></a> ] {% endfor %}
         </div>
     </nav>
+    <p><b>{{ site.title }} <span class="fas fa-copyright" aria-hidden="true"></span> {{ site.data.information.copyright }} </b></p>
 </div>
