@@ -177,7 +177,7 @@ function keno_fetch(next = 0) {
             keno.data.poll[1] = parseInt(
                 req.getResponseHeader("KDS-Next-Poll")
             );
-            keno.data.poll[0] = keno.data.poll[1] >= 1 ? keno.data.poll[1] : 10;
+            keno.data.poll[0] = Math.max(next, keno.data.poll[1] || 10);
             if (next > 0 && keno.data.poll[0] < next) keno.data.poll[0] = next;
 
             keno.data.refresh = keno_timer(keno.data.poll[0]);
@@ -253,7 +253,7 @@ function keno_update() {
 
     if (
         keno.json != null &&
-        keno.json.current != -null &&
+        keno.json.current != null &&
         keno.json.current.closed != null
     ) {
         keno.data.closed = new Date(Date.parse(keno.json.current.closed));
@@ -262,15 +262,11 @@ function keno_update() {
         if (since < 0) since = keno.config.length;
 
         next = Math.floor((keno.config.length - since) / 1000);
+        if (next < 0) next = 0;
     } else keno.data.closed = null;
 
-    if (next <= 0) {
-        next = 0;
-        keno.json = null;
-    }
-
     if (keno.data.poll[0] >= 0 && cur >= keno.data.refresh)
-        keno_fetch(next);
+        keno_fetch(keno.data.closed ? next : 1);
 
     for (var i = 0; i < keno.config.numbers; i++) {
         var num = i + 1;
