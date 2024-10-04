@@ -309,7 +309,7 @@ function keno_update() {
         last = -1,
         call = -1;
 
-    if (keno.json.current.draw != null) {
+    if (keno.json.current.draw != null && draws >= 0) {
         for (var i = 0; i < keno.json.current.draw.length; i++) {
             var num = keno.json.current.draw[i];
 
@@ -345,12 +345,14 @@ function keno_update() {
         );
 
     if (finished) {
-        if (keno.data.last.game != game) {
-            keno_sound("bonus" + bonus);
-        } else if (draws == keno.config.draws) {
-            keno_sound(
-                heads > tails ? "heads" : heads < tails ? "tails" : "evens"
-            );
+        if(keno.data.last.draw != draws) {
+            if (draws < 0) {
+                keno_sound("bonus" + bonus);
+            } else if (draws == keno.config.draws) {
+                keno_sound(
+                    heads > tails ? "heads" : heads < tails ? "tails" : "evens"
+                );
+            }
         }
     } else if (call >= 0 && call != keno.data.last.call) {
         keno_call(
