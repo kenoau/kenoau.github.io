@@ -161,8 +161,7 @@ function keno_fetch(next = 0) {
     keno.data.poll = [-1, 0]; // pause refreshes
 
     var head = {},
-        uri = keno_api(),
-        min = next >= keno.config.length / 4 ? 6 : 1;
+        uri = keno_api();
 
     console.log("fetch: ", uri, head);
 
@@ -179,8 +178,8 @@ function keno_fetch(next = 0) {
                 req.getResponseHeader("KDS-Next-Poll")
             );
             keno.data.poll[0] = keno.data.poll[1] >= 1 ? keno.data.poll[1] : 10;
+            if (next > 0 && keno.data.poll[0] < next) keno.data.poll[0] = next;
 
-            if (keno.data.poll[0] < min) keno.data.poll[0] = min;
             keno.data.refresh = keno_timer(keno.data.poll[0]);
             keno.json = data;
 
