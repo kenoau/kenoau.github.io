@@ -266,7 +266,13 @@ function keno_update() {
     } else keno.data.closed = null;
 
     if (keno.data.poll[0] >= 0 && cur >= keno.data.refresh)
-        keno_fetch(keno.data.closed ? next : 1);
+        keno_fetch(
+            keno.data.closed != null &&
+                keno.json.current != null &&
+                keno.json.current.variants.draw != null
+                ? next
+                : 1
+        );
 
     for (var i = 0; i < keno.config.numbers; i++) {
         var num = i + 1;
@@ -359,7 +365,13 @@ function keno_update() {
         else if (draws == keno.config.draws) state = 2;
     } else if (call >= 0 && call != keno.data.last.call) state = 3;
 
-    console.log("state:", state, keno.data.last.state, call, keno.data.last.call);
+    console.log(
+        "state:",
+        state,
+        keno.data.last.state,
+        call,
+        keno.data.last.call
+    );
 
     if (state != keno.data.last.state) {
         switch (state) {
