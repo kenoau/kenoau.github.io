@@ -260,7 +260,11 @@ function keno_update() {
         if (next < 0) next = 0;
     } else keno.data.closed = null;
 
-    if (keno.data.poll[0] >= 0 && cur >= keno.data.refresh && next == 0)
+    if (
+        keno.data.poll[0] >= 0 &&
+        cur >= keno.data.refresh &&
+        (next == 0 || keno.json.draws == null || keno.json.draws.length == 0)
+    )
         keno_fetch();
 
     for (var i = 0; i < keno.config.numbers; i++) {
