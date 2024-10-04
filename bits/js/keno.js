@@ -15,7 +15,7 @@ var keno = {
         last: {
             call: -1,
             game: -1,
-            state: 0,
+            state: -1,
             bonus: "",
         },
         closed: null,
@@ -248,8 +248,8 @@ function keno_sndbuf() {
 
 function keno_update() {
     var cur = new Date(),
-    since = 0,
-    next = 0;
+        since = 0,
+        next = 0;
 
     if (
         keno.json != null &&
@@ -355,9 +355,7 @@ function keno_update() {
     if (finished) {
         if (draws < 0) state = 1;
         else if (draws == keno.config.draws) state = 2;
-    } else if (call >= 0 && call != keno.data.last.call) {
-        state = 3;
-    }
+    } else if (call >= 0 && call != keno.data.last.call) state = 3;
 
     if (state != keno.data.last.state) {
         switch (state) {
