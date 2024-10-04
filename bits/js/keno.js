@@ -12,9 +12,12 @@ var keno = {
         proxies: ["https://corsproxy.io/?"],
     },
     data: {
-        call: -1,
+        last: {
+            call: -1,
+            game: -1,
+            draw: -1,
+        },
         closed: null,
-        game: -1,
         interval: null,
         jurisdiction: "qld",
         num: -1,
@@ -174,6 +177,7 @@ function keno_fetch() {
                 req.getResponseHeader("KDS-Next-Poll")
             );
             keno.data.poll[0] = keno.data.poll[1] >= 1 ? keno.data.poll[1] : 10;
+            if (keno.data.poll[0] < 5) keno.data.poll[0] = 5;
             keno.data.refresh = keno_timer(keno.data.poll[0]);
             keno.json = data;
 
@@ -217,7 +221,7 @@ function keno_sound(snd, nobuf) {
         keno.data.sndbf.push(snd);
         return;
     }
-    
+
     console.log("play: ", snd);
 
     keno_stopsnd();
@@ -232,7 +236,7 @@ function keno_sound(snd, nobuf) {
 
 function keno_sndbuf() {
     keno_stopsnd();
-    
+
     if (keno.data.sndbf.length > 0) {
         var snd = keno.data.sndbf.shift();
         keno_sound(snd, true);
@@ -284,18 +288,17 @@ function keno_update() {
         if (next < 0) next = 0;
     } else keno.data.closed = null;
 
-    if (since <= keno.config.calls.length + keno.config.calls.delay) {
-        draws =
-            since >= keno.config.calls.delay
-                ? Math.floor(since / keno.config.calls.delay)
-                : 0;
+    var delay = keno.config.calls.length + keno.config.calls.delay * 2;
+
+    if (since <= delay) {
+        draws = Math.floor(since / keno.config.calls.delay) - 1;
     } else {
         draws = keno.config.draws;
         finished = true;
     }
 
     var game = keno.json.current["game-number"];
-    if (keno.data.game != game) finished = true;
+    if (keno.data.last.game != game) finished = true;
 
     getelem("keno-draws-value").innerHTML = draws;
     getelem("keno-timer-value").innerHTML = maketime(next);
@@ -334,14 +337,24 @@ function keno_update() {
     getelem("keno-bonus-value").innerHTML = bonus;
     getelem("keno-llast-value").innerHTML = last >= 0 ? last : "&nbsp;";
 
-    if (finished || call < 0 || call != keno.data.call)
+    if (finished || call < 0 || call != keno.data.last.call)
         keno_call(
             "&nbsp;",
             getelem("keno-t-draws").getBoundingClientRect(),
             true
         );
 
-    if (finished != true && call >= 0 && call != keno.data.call) {
+    if (finished) {
+        if (keno.data.last.game != game) {
+            keno_sound("start");
+            keno_sound("bonus" + bonus);
+        } else {
+            keno_sound("end");
+            keno_sound(
+                heads > tails ? "heads" : heads < tails ? "tails" : "evens"
+            );
+        }
+    } else if (call >= 0 && call != keno.data.last.call) {
         keno_call(
             call,
             getelem("keno-n-" + call).getBoundingClientRect(),
@@ -350,8 +363,9 @@ function keno_update() {
         keno_sound(call.zeropad(3));
     }
 
-    keno.data.call = call;
-    keno.data.game = game;
+    keno.data.last.call = call;
+    keno.data.last.game = game;
+    keno.data.last.draw = draws;
 }
 
 function keno_toggle(start = false) {
