@@ -157,11 +157,12 @@ function keno_date(data) {
     );
 }
 
-function keno_fetch() {
+function keno_fetch(next = 0) {
     keno.data.poll = [-1, 0]; // pause refreshes
 
     var head = {},
-        uri = keno_api();
+        uri = keno_api(),
+        min = next >= keno.config.length / 4 ? 6 : 1;
 
     console.log("fetch: ", uri, head);
 
@@ -178,7 +179,8 @@ function keno_fetch() {
                 req.getResponseHeader("KDS-Next-Poll")
             );
             keno.data.poll[0] = keno.data.poll[1] >= 1 ? keno.data.poll[1] : 10;
-            if (keno.data.poll[0] < 3) keno.data.poll[0] = 3;
+
+            if (keno.data.poll[0] < min) keno.data.poll[0] = min;
             keno.data.refresh = keno_timer(keno.data.poll[0]);
             keno.json = data;
 
@@ -246,9 +248,25 @@ function keno_sndbuf() {
 }
 
 function keno_update() {
-    var cur = new Date();
+    var cur = new Date(),
+    since = 0,
+    next = 0;
 
-    if (keno.data.poll[0] >= 0 && cur >= keno.data.refresh) keno_fetch();
+    if (
+        keno.json != null &&
+        keno.json.current != -null &&
+        keno.json.current.closed != null
+    ) {
+        keno.data.closed = new Date(Date.parse(keno.json.current.closed));
+
+        since = cur.getTime() - keno.data.closed.getTime();
+        if (since < 0) since = keno.config.length;
+
+        next = Math.floor((keno.config.length - since) / 1000);
+        if (next < 0) next = 0;
+    } else keno.data.closed = null;
+
+    if (keno.data.poll[0] >= 0 && cur >= keno.data.refresh) keno_fetch(next);
 
     for (var i = 0; i < keno.config.numbers; i++) {
         var num = i + 1;
@@ -272,23 +290,7 @@ function keno_update() {
     }
 
     var draws = 0,
-        since = 0,
-        next = 0,
         finished = false;
-
-    if (
-        keno.json != null &&
-        keno.json.current != -null &&
-        keno.json.current.closed != null
-    ) {
-        keno.data.closed = new Date(Date.parse(keno.json.current.closed));
-
-        since = cur.getTime() - keno.data.closed.getTime();
-        if (since < 0) since = keno.config.length;
-
-        next = Math.floor((keno.config.length - since) / 1000);
-        if (next < 0) next = 0;
-    } else keno.data.closed = null;
 
     var delay = keno.config.calls.length + keno.config.calls.delay * 2;
 
