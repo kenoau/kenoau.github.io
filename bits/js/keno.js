@@ -174,7 +174,7 @@ function keno_fetch() {
                 req.getResponseHeader("KDS-Next-Poll")
             );
             keno.data.poll[0] = keno.data.poll[1] >= 1 ? keno.data.poll[1] : 1;
-            keno.data.poll[0]++;
+            if(keno.data.poll[0] < 5) keno.data.poll[0] = 5;
             keno.data.refresh = keno_timer(keno.data.poll[0]);
             keno.json = data;
 
@@ -208,11 +208,14 @@ function keno_sound(snd, nobuf) {
     if (keno.data.allow != true) return;
 
     if (nobuf != true && keno.data.sound != null) {
+        console.log("sndbuf: ", snd);
         keno.data.sndbf.push(snd);
         return;
     }
 
     keno.data.sound = null;
+
+    console.log("plysnd: ", snd);
 
     if (typeof snd == "string") {
         keno.data.sound = new Howl({
