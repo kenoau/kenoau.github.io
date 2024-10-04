@@ -174,6 +174,7 @@ function keno_fetch() {
                 req.getResponseHeader("KDS-Next-Poll")
             );
             keno.data.poll[0] = keno.data.poll[1] >= 1 ? keno.data.poll[1] : 1;
+            keno.data.poll[0]++;
             keno.data.refresh = keno_timer(keno.data.poll[0]);
             keno.json = data;
 
