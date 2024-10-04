@@ -358,6 +358,28 @@ function keno_update() {
     keno.data.game = game;
 }
 
+function keno_toggle(start = false) {
+    keno.data.allow = start ? false : !keno.data.allow;
+
+    var snd = getelem("keno-sound"),
+        tog = keno.data.allow ? "Disable" : "Enable";
+
+    snd.innerHTML =
+        '[ <a id="keno-sound-toggle" class="keno-center" title="' +
+        tog +
+        ' Sound">' +
+        tog +
+        " Sound</a> ]";
+
+    if (keno.data.sound != null) keno.data.sound.stop();
+    keno.data.sound = null;
+    keno.data.sndbuf = [];
+
+    if (keno.data.allow) keno_sound("start");
+
+    console.log("sound:", keno.data.allow ? "enabled" : "disabled");
+}
+
 function keno_init() {
     if (keno.data.interval != null) window.clearInterval(keno.data.interval);
 
@@ -375,33 +397,14 @@ function keno_init() {
     keno.data.refresh = keno_timer();
     keno.data.interval = window.setInterval(keno_update, keno.config.uprate);
 
+    keno_toggle(true);
+
     console.log(
         "keno init: ",
         keno.data.num,
         keno.data.refresh.getTime(),
         new Date().getTime()
     );
-}
-
-function keno_toggle(val) {
-    var snd = getelem("keno-sound"),
-        tog = val ? "Disable" : "Enable";
-
-    snd.innerHTML =
-        '[ <a id="keno-sound-toggle" class="keno-center" title="' +
-        tog +
-        'Sound">' +
-        tog +
-        "Sound</a> ]";
-
-    keno.data.allow = val;
-    if (keno.data.sound != null) keno.data.sound.stop();
-    keno.data.sound = null;
-    keno.data.sndbuf = [];
-
-    if (keno.data.allow) keno_sound("start");
-
-    console.log("sound:", keno.data.allow ? "enabled" : "disabled");
 }
 
 function keno_start() {
@@ -415,7 +418,6 @@ function keno_start() {
 }
 
 $(document).ready(function ($) {
-    keno_toggle(false);
     keno_start();
 });
 
