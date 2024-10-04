@@ -372,7 +372,7 @@ function keno_update() {
                     heads > tails ? "heads" : heads < tails ? "tails" : "evens"
                 );
                 break;
-            case 4:
+            case 3:
                 keno_call(
                     call,
                     getelem("keno-n-" + call).getBoundingClientRect(),
