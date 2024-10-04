@@ -177,7 +177,7 @@ function keno_fetch() {
                 req.getResponseHeader("KDS-Next-Poll")
             );
             keno.data.poll[0] = keno.data.poll[1] >= 1 ? keno.data.poll[1] : 10;
-            if (keno.data.poll[0] < 5) keno.data.poll[0] = 5;
+            if (keno.data.poll[0] < 3) keno.data.poll[0] = 3;
             keno.data.refresh = keno_timer(keno.data.poll[0]);
             keno.json = data;
 
@@ -229,6 +229,7 @@ function keno_sound(snd, nobuf) {
     keno.data.sound = new Howl({
         src: ["/bits/mp3/" + snd + ".mp3"],
         onend: keno_sndbuf,
+        onplayerror: keno_sndbuf,
     });
 
     if (keno.data.sound != null) keno.data.sound.play();
@@ -329,7 +330,7 @@ function keno_update() {
 
     var bonus = "&nbsp;";
     if (keno.json.current.variants != null) {
-        bonus = keno.json.current.variants.bonus || "&nbsp;";
+        bonus = keno.json.current.variants.bonus || "x1";
         if (bonus == "reg") bonus = "x1";
     }
     getelem("keno-heads-value").innerHTML = heads;
@@ -345,7 +346,7 @@ function keno_update() {
         );
 
     if (finished) {
-        if(keno.data.last.draw != draws) {
+        if (keno.data.last.draw != draws) {
             if (draws < 0) {
                 keno_sound("bonus" + bonus);
             } else if (draws == keno.config.draws) {
