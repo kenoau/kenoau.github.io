@@ -209,6 +209,8 @@ function keno_sound(snd, nobuf) {
         return;
     }
 
+    keno.data.sound = null;
+
     if (typeof snd == "string") {
         keno.data.sound = new Howl({
             src: ["/bits/mp3/" + snd + ".mp3"],
@@ -228,6 +230,8 @@ function keno_sound(snd, nobuf) {
             onend: keno_sndbuf,
         });
     }
+
+    if (keno.data.sound != null) keno.data.sound.play();
 }
 
 function keno_sndbuf() {
