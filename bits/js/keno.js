@@ -304,6 +304,7 @@ function keno_update() {
     if (keno.data.last.game != game) {
         finished = true;
         keno.data.last.bonus = null;
+        keno.data.last.state = -1;
     }
 
     getelem("keno-draws-value").innerHTML = draws >= 0 ? draws : "..";
