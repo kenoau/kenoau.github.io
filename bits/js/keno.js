@@ -406,6 +406,7 @@ function keno_toggle(val) {
     snd.innerHTML += " ]";
 
     keno.data.allow = val;
+    keno_sound("start");
 }
 
 function keno_start() {
