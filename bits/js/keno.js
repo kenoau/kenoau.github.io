@@ -291,6 +291,9 @@ function keno_update() {
         keno_call("&nbsp;", getelem("keno-body").getBoundingClientRect(), true);
 
         console.log("keno update: ", "no JSON data");
+        keno.data.last.bonus = null;
+        keno.data.last.state = -1;
+        keno.data.last.call = -1;
 
         return;
     }
@@ -312,6 +315,7 @@ function keno_update() {
         finished = true;
         keno.data.last.bonus = null;
         keno.data.last.state = -1;
+        keno.data.last.call = -1;
     }
 
     getelem("keno-draws-value").innerHTML = draws >= 0 ? draws : "..";
@@ -361,7 +365,7 @@ function keno_update() {
 
     var state = 0;
     if (finished) {
-        if (draws < 0) state = 1;
+        if (draws <= 0) state = 1;
         else if (draws == keno.config.draws) state = 2;
     } else if (call >= 0 && call != keno.data.last.call) state = 3;
 
