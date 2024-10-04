@@ -346,10 +346,8 @@ function keno_update() {
 
     if (finished) {
         if (keno.data.last.game != game) {
-            keno_sound("start");
             keno_sound("bonus" + bonus);
-        } else {
-            keno_sound("end");
+        } else if (draws == keno.config.draws) {
             keno_sound(
                 heads > tails ? "heads" : heads < tails ? "tails" : "evens"
             );
