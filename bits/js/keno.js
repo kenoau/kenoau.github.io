@@ -211,31 +211,17 @@ function keno_sound(snd, nobuf) {
         console.log("sndbuf: ", snd);
         keno.data.sndbf.push(snd);
         return;
+    } else if (keno.data.sound != null) {
+        keno.data.sound.stop();
+        keno.data.sound = null;
     }
 
-    keno.data.sound = null;
+    console.log("player: ", snd);
 
-    console.log("plysnd: ", snd);
-
-    if (typeof snd == "string") {
-        keno.data.sound = new Howl({
-            src: ["/bits/mp3/" + snd + ".mp3"],
-            onend: keno_sndbuf,
-        });
-    } else if (snd > 20) {
-        var mod = snd % 10,
-            par = snd - mod;
-        keno.data.sound = new Howl({
-            src: ["/bits/mp3/" + par.zeropad(3) + ".mp3"],
-            onend: keno_sndbuf,
-        });
-        if (mod > 0) keno.data.sndbf.push(mod);
-    } else {
-        keno.data.sound = new Howl({
-            src: ["/bits/mp3/" + snd.zeropad(3) + ".mp3"],
-            onend: keno_sndbuf,
-        });
-    }
+    keno.data.sound = new Howl({
+        src: ["/bits/mp3/" + snd + ".mp3"],
+        onend: keno_sndbuf,
+    });
 
     if (keno.data.sound != null) keno.data.sound.play();
 }
@@ -355,7 +341,7 @@ function keno_update() {
             getelem("keno-n-" + call).getBoundingClientRect(),
             false
         );
-        keno_sound(call);
+        keno_sound(call.zeropad(3));
     }
 
     keno.data.call = call;
