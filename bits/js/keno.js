@@ -173,8 +173,7 @@ function keno_fetch() {
             keno.data.poll[1] = parseInt(
                 req.getResponseHeader("KDS-Next-Poll")
             );
-            keno.data.poll[0] = keno.data.poll[1] >= 1 ? keno.data.poll[1] : 1;
-            if(keno.data.poll[0] < 5) keno.data.poll[0] = 5;
+            keno.data.poll[0] = keno.data.poll[1] >= 1 ? keno.data.poll[1] : 10;
             keno.data.refresh = keno_timer(keno.data.poll[0]);
             keno.json = data;
 
@@ -204,19 +203,24 @@ function keno_call(call, rect, hide) {
     c.innerHTML = call;
 }
 
+function keno_stopsnd() {
+    if (keno.data.sound != null) {
+        keno.data.sound.stop();
+        keno.data.sound = null;
+    }
+}
+
 function keno_sound(snd, nobuf) {
     if (keno.data.allow != true) return;
 
     if (nobuf != true && keno.data.sound != null) {
-        console.log("sndbuf: ", snd);
         keno.data.sndbf.push(snd);
         return;
-    } else if (keno.data.sound != null) {
-        keno.data.sound.stop();
-        keno.data.sound = null;
     }
+    
+    console.log("play: ", snd);
 
-    console.log("player: ", snd);
+    keno_stopsnd();
 
     keno.data.sound = new Howl({
         src: ["/bits/mp3/" + snd + ".mp3"],
@@ -227,6 +231,8 @@ function keno_sound(snd, nobuf) {
 }
 
 function keno_sndbuf() {
+    keno_stopsnd();
+    
     if (keno.data.sndbf.length > 0) {
         var snd = keno.data.sndbf.shift();
         keno_sound(snd, true);
