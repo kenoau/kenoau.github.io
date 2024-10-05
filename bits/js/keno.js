@@ -10,6 +10,7 @@ var keno = {
         draws: 20,
         uprate: 100,
         proxies: ["https://corsproxy.io/?"],
+        jurisdictions: ["qld", "nsw", "act", "vic", "tas", "sa", "nt", "wa"],
     },
     data: {
         last: {
@@ -20,8 +21,7 @@ var keno = {
         },
         closed: null,
         interval: null,
-        jurisdiction: "qld",
-        num: -1,
+        jurisdiction: null,
         poll: [0, 0],
         proxy: -1,
         refresh: null,
@@ -177,7 +177,10 @@ function keno_fetch(next = 0) {
             keno.data.poll[1] = parseInt(
                 req.getResponseHeader("KDS-Next-Poll")
             );
-            keno.data.poll[0] = Math.max(3, Math.max(next, keno.data.poll[1] || 10));
+            keno.data.poll[0] = Math.max(
+                3,
+                Math.max(next, keno.data.poll[1] || 10)
+            );
             if (next > 0 && keno.data.poll[0] < next) keno.data.poll[0] = next;
 
             keno.data.refresh = keno_timer(keno.data.poll[0]);
@@ -355,7 +358,7 @@ function keno_update() {
             keno_sound("bonus" + bonus);
             keno.data.last.bonus = bonus;
         }
-}
+    }
 
     getelem("keno-heads-value").innerHTML = heads;
     getelem("keno-tails-value").innerHTML = tails;
@@ -431,14 +434,31 @@ function keno_init() {
     if (keno.data.interval != null) window.clearInterval(keno.data.interval);
 
     var url = window.location.hash,
-        idx = url.indexOf("#");
+        idx = url.indexOf("#"),
+        str = null;
 
-    if (idx >= 0) {
-        var str = url.substring(idx + 1);
-        keno.data.num = parseInt(str);
-    } else {
-        keno.data.num = -1;
+    if (idx >= 0) str = url.substring(idx + 1);
+
+    var elem = getelem("keno-juris");
+
+    elem.innerHTML = "";
+
+    for (var i = 0; i < keno.config.jurisdictions.length; i++) {
+        if (str == keno.config.jurisdictions[i]) {
+            keno.data.jurisdiction = str;
+            break;
+        }
+
+        elem.innerHTML +=
+            ' [ <a href="#' +
+            keno.config.jurisdictions[i] +
+            '">' +
+            keno.config.jurisdictions[i].toUpperCase() +
+            "</a> ] ";
     }
+
+    if (keno.data.jurisdiction == null)
+        keno.data.jurisdiction = keno.config.jurisdictions[0];
 
     keno.data.poll = [0, 0];
     keno.data.refresh = keno_timer();
