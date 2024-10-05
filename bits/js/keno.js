@@ -446,15 +446,20 @@ function keno_init() {
     for (var i = 0; i < keno.config.jurisdictions.length; i++) {
         if (str == keno.config.jurisdictions[i]) {
             keno.data.jurisdiction = str;
-            break;
+            elem.innerHTML +=
+                ' [ <b><a href="#' +
+                keno.config.jurisdictions[i] +
+                '">' +
+                keno.config.jurisdictions[i].toUpperCase() +
+                "</a></b> ] ";
+        } else {
+            elem.innerHTML +=
+                ' [ <a href="#' +
+                keno.config.jurisdictions[i] +
+                '">' +
+                keno.config.jurisdictions[i].toUpperCase() +
+                "</a> ] ";
         }
-
-        elem.innerHTML +=
-            ' [ <a href="#' +
-            keno.config.jurisdictions[i] +
-            '">' +
-            keno.config.jurisdictions[i].toUpperCase() +
-            "</a> ] ";
     }
 
     if (keno.data.jurisdiction == null)
