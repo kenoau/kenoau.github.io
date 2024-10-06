@@ -79,30 +79,26 @@ function getrand(max) {
 }
 
 function toggle_theme() {
-    var elem = document.getElementById('body');
-
-    if (elem == null) return;
-
     var type = 'dark';
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches)
         type = 'light';
 
-    for (var i = 0; i < elem.classList.length; i++) {
-        if (elem.classList[i] == 'dark') {
+    for (var i = 0; i < document.body.classList.length; i++) {
+        if (document.body.classList[i] == 'dark') {
             type = 'dark';
             break;
-        } else if (elem.classList[i] == 'light') {
+        } else if (document.body.classList[i] == 'light') {
             type = 'light';
             break;
         }
     }
 
     if (type == 'dark') {
-        elem.classList.remove('dark');
-        elem.classList.add('light');
+        document.body.classList.remove('dark');
+        document.body.classList.add('light');
     } else if (type == 'light') {
-        elem.classList.remove('light');
-        elem.classList.add('dark');
+        document.body.classList.remove('light');
+        document.body.classList.add('dark');
     }
 
     console.log('theme: ', type);
