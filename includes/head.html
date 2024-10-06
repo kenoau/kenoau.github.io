@@ -124,39 +124,6 @@
         title: {{ page.title | jsonify }},
         url: {{ page.url | jsonify }}
     };
-
-    function toggle_theme() {
-        var elem = document.getElementById('body');
-
-        if (elem == null) return;
-
-        var type = 'dark';
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches)
-            type = 'light';
-   
-        for (var i = 0; i < elem.classList.length; i++) {
-            if (elem.classList[i] == 'dark') {
-                type = 'dark';
-                break;
-            } else if (elem.classList[i] == 'light') {
-                type = 'light';
-                break;
-            }
-        }
-
-        if (type == 'dark') {
-            elem.classList.remove('dark');
-            elem.classList.add('light');
-        } else if (type == 'light') {
-            elem.classList.remove('light');
-            elem.classList.add('dark');
-        }
-
-        console.log('theme: ', type);
-    }
-    
-    $(document).ready(function ($) {
-        toggle_theme();
-    });
 </script>
 <link rel="stylesheet" type="text/css" href="/bits/css/common.css" />
+<script type="text/javascript" src="/bits/js/site.js"></script>
