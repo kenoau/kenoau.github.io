@@ -30,7 +30,7 @@
 .keno-info {
     width: 8vw;
     display: table-cell;
-    border: 2px solid rgb(32, 32, 32);
+    border: 2px solid light-dark(rgb(32, 32, 32), rgb(32, 32, 32));
     border-radius: 8px;
     vertical-align: middle;
 }
@@ -46,7 +46,8 @@
     border-radius: 8px;
     font-size: 2.5vw;
     font-weight: bolder;
-    text-shadow: 0px 0px 1.5vw rgb(255, 255, 255, 0.85);
+    text-shadow: 0px 0px 1.5vw
+        light-dark(rgb(0, 0, 0, 0.85), rgb(255, 255, 255, 0.85));
 }
 
 #keno-top {
@@ -64,53 +65,62 @@
 
 .keno-value {
     font-size: 2vw;
-    text-shadow: 0px 0px 1.5vw rgb(255, 255, 255, 0.85);
+    text-shadow: 0px 0px 1.5vw
+        light-dark(rgb(0, 0, 0, 0.85), rgb(255, 255, 255, 0.85));
 }
 
 #keno-r-0 {
     font-size: 2.5vw;
-    color: rgb(255, 128, 128);
-    text-shadow: 0px 0px 1.5vw rgb(255, 128, 128, 0.85);
+    color: light-dark(rgb(128, 0, 0), rgb(255, 128, 128));
+    text-shadow: 0px 0px 1.5vw
+        light-dark(rgb(128, 0, 0, 0.85), rgb(255, 128, 128, 0.85));
 }
 
 #keno-r-1 {
     font-size: 2.5vw;
-    color: rgb(92, 92, 255);
-    text-shadow: 0px 0px 1.5vw rgb(92, 92, 255, 0.85);
+    color: light-dark(rgb(0, 0, 128), rgb(92, 92, 255));
+    text-shadow: 0px 0px 1.5vw
+        light-dark(rgb(0, 0, 128, 0.85), rgb(92, 92, 255, 0.85));
 }
 
 #keno-r-2 {
     font-size: 2.5vw;
-    color: rgb(64, 255, 64);
-    text-shadow: 0px 0px 1.5vw rgb(64, 255, 64, 0.85);
+    color: light-dark(rgb(0, 128, 0), rgb(64, 255, 64));
+    text-shadow: 0px 0px 1.5vw
+        light-dark(rgb(0, 128, 0, 0.85), rgb(64, 255, 64, 0.85));
 }
 
 #keno-r-3 {
     font-size: 2.5vw;
-    color: rgb(255, 255, 64);
-    text-shadow: 0px 0px 1.5vw rgb(255, 255, 64, 0.85);
+    color: light-dark(rgb(128, 128, 0), rgb(255, 255, 64));
+    text-shadow: 0px 0px 1.5vw
+        light-dark(rgb(128, 128, 0, 0.85), rgb(255, 255, 64, 0.85));
 }
 
 #keno-r-4 {
     font-size: 2.5vw;
-    color: rgb(255, 128, 255);
-    text-shadow: 0px 0px 1.5vw rgb(255, 128, 255, 0.85);
+    color: light-dark(rgb(128, 0, 128), rgb(255, 128, 255));
+    text-shadow: 0px 0px 1.5vw
+        light-dark(rgb(128, 0, 128, 0.85), rgb(255, 128, 255, 0.85));
 }
 
 #keno-r-5 {
     font-size: 2.5vw;
-    color: rgb(255, 142, 86);
-    text-shadow: 0px 0px 1.5vw rgb(255, 142, 86, 0.85);
+    color: light-dark(rgb(192, 64, 0), rgb(255, 142, 86));
+    text-shadow: 0px 0px 1.5vw
+        light-dark(rgb(192, 64, 0, 0.85), rgb(255, 142, 86, 0.85));
 }
 
 #keno-r-6 {
     font-size: 2.5vw;
-    color: rgb(64, 192, 192);
-    text-shadow: 0px 0px 1.5vw rgb(64, 192, 192, 0.85);
+    color: light-dark(rgb(0, 128, 128), rgb(64, 192, 192));
+    text-shadow: 0px 0px 1.5vw
+        light-dark(rgb(0, 128, 128, 0.85), rgb(64, 192, 192, 0.85)) 4;
 }
 
 #keno-r-7 {
     font-size: 2.5vw;
-    color: rgb(162, 116, 255);
-    text-shadow: 0px 0px 1.5vw rgb(162, 116, 255, 0.85);
+    color: light-dark(rgb(64, 0, 128), rgb(162, 116, 255));
+    text-shadow: 0px 0px 1.5vw
+        light-dark(rgb(64, 0, 128, 0.85), rgb(162, 116, 255, 0.85));
 }

@@ -1,7 +1,18 @@
 @charset "utf-8";
+:root {
+    color-scheme: light dark;
+}
+
+.light {
+    color-scheme: light;
+}
+.dark {
+    color-scheme: dark;
+}
+
 body {
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
+    background-color: light-dark(rgb(255, 255, 255), rgb(0, 0, 0));
+    color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));
     font-size: 1vw;
     font-weight: 400;
     font-family: "Segoe UI", Helvetica, Arial, sans-serif;
@@ -14,15 +25,15 @@ a,
 a:link,
 a:visited,
 .fakelink {
-    color: rgb(128, 128, 255);
+    color: light-dark(rgb(64, 64, 128), rgb(128, 128, 255));
     text-decoration: none;
-    text-shadow: -1px -1px 4px rgb(0, 0, 255);
+    text-shadow: -1px -1px 4px light-dark(rgb(0, 0, 128), rgb(0, 0, 255));
 }
 
 a:hover,
 a:active .fakelink:hover .fakelink:active {
-    color: rgb(240, 240, 255);
-    text-shadow: -1px -1px 4px rgb(240, 240, 255);
+    color: light-dark(rgb(120, 120, 128), rgb(240, 240, 255));
+    text-shadow: -1px -1px 4px light-dark(rgb(120, 120, 128), rgb(240, 240, 255));
 }
 
 .main,

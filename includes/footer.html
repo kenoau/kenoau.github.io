@@ -7,6 +7,9 @@
                 <div class="navtext">{{ navitem.title }}</div>
             </a>
             ] {% endfor %}
+            [ <a id="nav-toggle-theme" title="Toggle Theme" onclick="toggle_theme();">
+                Toggle Theme
+            </a> ]
         </div>
     </nav>
     <p><b>{{ site.title }} <span class="fas fa-copyright" aria-hidden="true"></span> {{ site.data.information.copyright }}</b></p>
