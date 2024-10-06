@@ -28,12 +28,14 @@ a:visited,
     color: light-dark(rgb(64, 64, 128), rgb(128, 128, 255));
     text-decoration: none;
     text-shadow: -1px -1px 4px light-dark(rgb(0, 0, 128), rgb(0, 0, 255));
+    cursor: pointer;
 }
 
 a:hover,
 a:active .fakelink:hover .fakelink:active {
     color: light-dark(rgb(120, 120, 128), rgb(240, 240, 255));
     text-shadow: -1px -1px 4px light-dark(rgb(120, 120, 128), rgb(240, 240, 255));
+    cursor: pointer;
 }
 
 .main,
