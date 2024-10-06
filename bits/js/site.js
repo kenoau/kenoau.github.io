@@ -103,7 +103,3 @@ function toggle_theme() {
 
     console.log('theme: ', type);
 }
-
-$(document).ready(function ($) {
-    toggle_theme();
-});
