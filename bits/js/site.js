@@ -1,3 +1,8 @@
+var config = {
+    theme: null,
+
+}
+
 // Helpers
 Number.prototype.zeropad = function (len) {
     var s = String(this),
@@ -79,27 +84,21 @@ function getrand(max) {
 }
 
 function toggle_theme() {
-    var type = 'dark';
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches)
-        type = 'light';
-
-    for (var i = 0; i < document.body.classList.length; i++) {
-        if (document.body.classList[i] == 'dark') {
-            type = 'dark';
-            break;
-        } else if (document.body.classList[i] == 'light') {
-            type = 'light';
-            break;
-        }
-    }
-
-    if (type == 'dark') {
+    if (config.theme == 'dark') {
         document.body.classList.remove('dark');
         document.body.classList.add('light');
-    } else if (type == 'light') {
+        config.theme = 'light';
+    } else if (config.theme == 'light') {
         document.body.classList.remove('light');
         document.body.classList.add('dark');
+        config.theme = 'dark';
     }
 
-    console.log('theme: ', type);
+    makecookie('theme', config.theme, 365);
+    console.log('theme: ', config.theme);
 }
+
+$(document).ready(function ($) {
+    var theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches || 'dark';
+    config.theme = getcookie('theme') || theme;
+});

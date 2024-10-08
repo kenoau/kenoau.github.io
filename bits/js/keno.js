@@ -11,6 +11,7 @@ var keno = {
         uprate: 100,
         proxies: ["https://corsproxy.io/?"],
         jurisdictions: ["qld", "nsw", "act", "vic", "tas", "sa", "nt", "wa"],
+        voices: [ "Aria", "Roger", "Sarah", "Tom", "Alice", "Daniel", "Karen", "Moira", "Samantha", "Tessa", "Veena", "Victoria" ],
     },
     data: {
         last: {
@@ -27,7 +28,7 @@ var keno = {
         refresh: null,
         sound: null,
         sndbf: [],
-        allow: false,
+        voice: null,
     },
     json: null,
 };
@@ -140,7 +141,7 @@ function keno_stopsnd() {
 }
 
 function keno_sound(snd, nobuf) {
-    if (keno.data.allow != true) return;
+    if (keno.data.voice == null) return;
 
     if (nobuf != true && keno.data.sound != null) {
         keno.data.sndbf.push(snd);
@@ -152,7 +153,7 @@ function keno_sound(snd, nobuf) {
     keno_stopsnd();
 
     keno.data.sound = new Howl({
-        src: ["/bits/mp3/" + snd + ".mp3"],
+        src: ["/bits/voices/" + keno.data.voice + "/" + snd + ".mp3"],
         onend: keno_sndbuf,
         onplayerror: keno_sndbuf,
     });
@@ -328,26 +329,31 @@ function keno_update() {
     keno.data.last.game = game;
 }
 
-function keno_toggle(start = false) {
-    keno.data.allow = start ? false : !keno.data.allow;
+function keno_toggle(voiceid = null) {
+    if(voiceid == null && keno.data.voice != null)
+        keno_sound("soundoff");
 
-    var snd = getelem("keno-sound"),
-        tog = keno.data.allow ? "Disable" : "Enable";
+    keno.data.voice = voiceid;
+
+    if(keno.data.voice != null)
+        keno_sound("soundon");
+
+    var snd = getelem("keno-sound");
 
     snd.innerHTML =
-        '[ <a id="keno-sound-toggle" class="keno-center" title="' +
-        tog +
-        ' Sound" onclick="keno_toggle();">' +
-        tog +
-        " Sound</a> ]";
+        '[ <a id="keno-sound-disable" class="keno-center" title="Disable Sound" onclick="keno_toggle(null);">Disable Sound</a> ]";
 
-    if (keno.data.sound != null) keno.data.sound.stop();
-    keno.data.sound = null;
-    keno.data.sndbuf = [];
+    for(var i = 0; i < keno.config.voices.length; i++) {
+        var voice = keno.config.voices[i];
+        snd.innerHTML =
+            '[ <a id="keno-sound-" class="keno-center" title="' +
+            voice +
+            '" onclick="keno_toggle("' + voice + '");">' +
+            voice +
+            "</a> ]";
+    }
 
-    if (keno.data.allow) keno_sound("start");
-
-    console.log("sound:", keno.data.allow ? "enabled" : "disabled");
+    console.log("sound:", keno.data.voice);
 }
 
 function keno_init() {
