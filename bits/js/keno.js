@@ -11,7 +11,6 @@ var keno = {
         uprate: 100,
         proxies: ["https://corsproxy.io/?"],
         jurisdictions: ["qld", "nsw", "act", "vic", "tas", "sa", "nt", "wa"],
-        voices: [ "Aria", "Roger", "Sarah", "Tom", "Alice", "Daniel", "Karen", "Moira", "Samantha", "Tessa", "Veena", "Victoria" ],
     },
     data: {
         last: {
@@ -330,26 +329,49 @@ function keno_update() {
 }
 
 function keno_toggle(voiceid = null) {
-    if(voiceid == null && keno.data.voice != null)
-        keno_sound("soundoff");
+    var found = false;
+
+    for (var i = 0; i < voices.length; i++) {
+        if (voiceid == voices[i].name) {
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        console.log("voice not found: ", voiceid);
+        return;
+    }
+
+    if (voiceid == null && keno.data.voice != null) keno_sound("soundoff");
 
     keno.data.voice = voiceid;
 
-    if(keno.data.voice != null)
-        keno_sound("soundon");
+    if (keno.data.voice != null) keno_sound("soundon");
 
     var snd = getelem("keno-sound");
 
     snd.innerHTML =
-        '[ <a id="keno-sound-disable" class="keno-center" title="Disable Sound" onclick="keno_toggle(null);">Disable Sound</a> ]";
+        '[ <a id="keno-sound-disable" class="keno-center" title="Disable Sound" onclick="keno_toggle(null);">Disable Sound</a> ]"';
 
-    for(var i = 0; i < keno.config.voices.length; i++) {
-        var voice = keno.config.voices[i];
+    for (var i = 0; i < voices.length; i++) {
+        var voice = voices[i];
         snd.innerHTML =
             '[ <a id="keno-sound-" class="keno-center" title="' +
-            voice +
-            '" onclick="keno_toggle("' + voice + '");">' +
-            voice +
+            voice.name +
+            " (" +
+            voice.labels.accent +
+            " " +
+            voice.labels.description +
+            " " +
+            voice.labels.age +
+            " " +
+            voice.labels.gender +
+            ")" +
+            '" onclick="keno_toggle("' +
+            voice.name +
+            '");">' +
+            voice.name +
             "</a> ]";
     }
 
