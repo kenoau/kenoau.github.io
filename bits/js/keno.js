@@ -354,16 +354,16 @@ function keno_toggle(voiceid = null) {
     var snd = getelem("keno-sound");
 
     snd.innerHTML =
-        '[<a id="keno-sound-disable" ' +
+        '[ <a id="keno-sound-disable" ' +
         'class="keno-center' +
         (keno.data.voice == null ? ' keno-selected"' : '"') +
         '" title="No Voice" ' +
-        'onclick="keno_toggle(null);">No Voice</a>]';
+        'onclick="keno_toggle(null);">No Voice</a> ]';
 
     for (var i = 0; i < voices.length; i++) {
         var voice = voices[i];
         snd.innerHTML +=
-            '[<a id="keno-sound-' +
+            '[ <a id="keno-sound-' +
             voice.name +
             '" class="keno-center' +
             (keno.data.voice == voice.name ? ' keno-selected"' : '"') +
@@ -381,7 +381,7 @@ function keno_toggle(voiceid = null) {
             voice.name +
             "');\">" +
             voice.name +
-            "</a>]";
+            "</a> ]";
     }
 
     console.log("sound:", keno.data.voice);
@@ -404,18 +404,18 @@ function keno_init() {
         if (str == keno.config.jurisdictions[i]) {
             keno.data.jurisdiction = str;
             elem.innerHTML +=
-                ' [<a class="keno-selected" href="#' +
+                '[ <a class="keno-center keno-selected" href="#' +
                 keno.config.jurisdictions[i] +
                 '">' +
                 keno.config.jurisdictions[i].toUpperCase() +
-                "</a>] ";
+                "</a> ]";
         } else {
             elem.innerHTML +=
-                ' [<a href="#' +
+                '[ <a class="keno-center" href="#' +
                 keno.config.jurisdictions[i] +
                 '">' +
                 keno.config.jurisdictions[i].toUpperCase() +
-                "</a>] ";
+                "</a> ]";
         }
     }
 

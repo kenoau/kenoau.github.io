@@ -27,7 +27,7 @@
 }
 
 .keno-selected {
-    font-weight: bold;
+    text-color: light-dark(rgb(64, 0, 64), rgb(255, 64, 255));
 }
 
 .keno-number,
