@@ -26,6 +26,10 @@
     text-align: right;
 }
 
+.keno-selected {
+    font-weight: bold;
+}
+
 .keno-number,
 .keno-info {
     width: 8vw;

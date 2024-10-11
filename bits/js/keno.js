@@ -353,23 +353,21 @@ function keno_toggle(voiceid = null) {
 
     var snd = getelem("keno-sound");
 
-    snd.innerHTML = "[ ";
-    if (keno.data.voice == null) snd.innerHTML += "<b>";
-    snd.innerHTML +=
-        '<a id="keno-sound-disable" ' +
-        'class="keno-center" title="Disable Sound" ' +
-        'onclick="keno_toggle(null);">Disable Sound</a>';
-    if (keno.data.voice == null) snd.innerHTML += "</b>";
-    snd.innerHTML += " ]";
+    snd.innerHTML =
+        '[ <a id="keno-sound-disable" ' +
+        'class="keno-center' +
+        (keno.data.voice == null ? ' keno-selected"' : '"') +
+        '" title="No Voice" ' +
+        'onclick="keno_toggle(null);">No Voice</a> ]';
 
     for (var i = 0; i < voices.length; i++) {
         var voice = voices[i];
-        snd.innerHTML += "[ ";
-        if (keno.data.voice == voice.name) snd.innerHTML += "<b>";
         snd.innerHTML +=
-            '<a id="keno-sound-' +
+            '[ <a id="keno-sound-' +
             voice.name +
-            '" class="keno-center" title="' +
+            '" class="keno-center' +
+            (keno.data.voice == voice.name ? ' keno-selected"' : '"') +
+            '" title="' +
             voice.name +
             " (" +
             voice.labels.accent +
@@ -381,11 +379,9 @@ function keno_toggle(voiceid = null) {
             voice.labels.gender +
             ')" onclick="keno_toggle(\'' +
             voice.name +
-            '\');">' +
+            "');\">" +
             voice.name +
-            "</a>";
-        if (keno.data.voice == voice.name) snd.innerHTML += "</b>";
-        snd.innerHTML += " ]";
+            "</a> ]";
     }
 
     console.log("sound:", keno.data.voice);
@@ -408,11 +404,11 @@ function keno_init() {
         if (str == keno.config.jurisdictions[i]) {
             keno.data.jurisdiction = str;
             elem.innerHTML +=
-                ' [ <b><a href="#' +
+                ' [ <a class="keno-selected" href="#' +
                 keno.config.jurisdictions[i] +
                 '">' +
                 keno.config.jurisdictions[i].toUpperCase() +
-                "</a></b> ] ";
+                "</a> ] ";
         } else {
             elem.innerHTML +=
                 ' [ <a href="#' +
