@@ -353,13 +353,19 @@ function keno_toggle(voiceid = null) {
 
     var snd = getelem("keno-sound");
 
-    snd.innerHTML =
-        '[ <a id="keno-sound-disable" class="keno-center" title="Disable Sound" onclick="keno_toggle(null);">Disable Sound</a> ]"';
+    snd.innerHTML = "[ ";
+    if (keno.data.voice == null) snd.innerHTML += "<b>";
+    snd.innerHTML +=
+        '<a id="keno-sound-disable" class="keno-center" title="Disable Sound" onclick="keno_toggle(null);">Disable Sound</a>"';
+    if (keno.data.voice == null) snd.innerHTML += "</b>";
+    snd.innerHTML += " ]";
 
     for (var i = 0; i < voices.length; i++) {
         var voice = voices[i];
-        snd.innerHTML =
-            '[ <a id="keno-sound-" class="keno-center" title="' +
+        snd.innerHTML += "[ ";
+        if (keno.data.voice == voice.name) snd.innerHTML += "<b>";
+        snd.innerHTML +=
+            '<a id="keno-sound-" class="keno-center" title="' +
             voice.name +
             " (" +
             voice.labels.accent +
@@ -374,7 +380,9 @@ function keno_toggle(voiceid = null) {
             voice.name +
             '");">' +
             voice.name +
-            "</a> ]";
+            "</a>";
+        if (keno.data.voice == voice.name) snd.innerHTML += "</b>";
+        snd.innerHTML += " ]";
     }
 
     console.log("sound:", keno.data.voice);
