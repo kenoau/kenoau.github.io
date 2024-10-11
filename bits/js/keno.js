@@ -356,7 +356,9 @@ function keno_toggle(voiceid = null) {
     snd.innerHTML = "[ ";
     if (keno.data.voice == null) snd.innerHTML += "<b>";
     snd.innerHTML +=
-        '<a id="keno-sound-disable" class="keno-center" title="Disable Sound" onclick="keno_toggle(null);">Disable Sound</a>"';
+        '<a id="keno-sound-disable" ' +
+        'class="keno-center" title="Disable Sound" ' +
+        'onclick="keno_toggle(null);">Disable Sound</a>';
     if (keno.data.voice == null) snd.innerHTML += "</b>";
     snd.innerHTML += " ]";
 
@@ -365,7 +367,9 @@ function keno_toggle(voiceid = null) {
         snd.innerHTML += "[ ";
         if (keno.data.voice == voice.name) snd.innerHTML += "<b>";
         snd.innerHTML +=
-            '<a id="keno-sound-" class="keno-center" title="' +
+            '<a id="keno-sound-' +
+            voice.name +
+            '" class="keno-center" title="' +
             voice.name +
             " (" +
             voice.labels.accent +
@@ -375,10 +379,9 @@ function keno_toggle(voiceid = null) {
             voice.labels.age +
             " " +
             voice.labels.gender +
-            ")" +
-            '" onclick="keno_toggle("' +
+            ')" onclick="keno_toggle(\'' +
             voice.name +
-            '");">' +
+            '\');">' +
             voice.name +
             "</a>";
         if (keno.data.voice == voice.name) snd.innerHTML += "</b>";
