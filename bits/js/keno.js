@@ -98,7 +98,7 @@ function keno_fetch(next = 0) {
                 req.getResponseHeader("KDS-Next-Poll")
             );
             keno.data.poll[0] = Math.max(
-                3,
+                2,
                 Math.max(next, keno.data.poll[1] || 10)
             );
             if (next > 0 && keno.data.poll[0] < next) keno.data.poll[0] = next;
@@ -329,18 +329,20 @@ function keno_update() {
 }
 
 function keno_toggle(voiceid = null) {
-    var found = false;
+    if (voiceid != null) {
+        var found = false;
 
-    for (var i = 0; i < voices.length; i++) {
-        if (voiceid == voices[i].name) {
-            found = true;
-            break;
+        for (var i = 0; i < voices.length; i++) {
+            if (voiceid == voices[i].name) {
+                found = true;
+                break;
+            }
         }
-    }
 
-    if (!found) {
-        console.log("voice not found: ", voiceid);
-        return;
+        if (!found) {
+            console.log("voice not found: ", voiceid);
+            return;
+        }
     }
 
     if (voiceid == null && keno.data.voice != null) keno_sound("soundoff");
@@ -417,7 +419,7 @@ function keno_init() {
     keno.data.refresh = keno_timer();
     keno.data.interval = window.setInterval(keno_update, keno.config.uprate);
 
-    keno_toggle(true);
+    keno_toggle(null);
 
     console.log(
         "keno init: ",
